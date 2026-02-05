@@ -149,27 +149,66 @@ for brand in brands:
     print(f"Brand: {brand.name}")
 ```
 
-### Orders Resource (Coming Soon)
+### Orders Resource
 
 Manage orders, confirmations, and shipping:
 
 ```python
-# List orders
+# List orders by date range
 orders = client.orders.list(
     start_date="2024-01-01",
     end_date="2024-01-31"
 )
+for order in orders:
+    print(f"Order: {order['productOrderId']}")
+    print(f"Product: {order['productName']}")
+    print(f"Status: {order['productOrderStatus']}")
 
 # Get order details
-order = client.orders.retrieve("order_id")
+order = client.orders.retrieve("2024010112345678")
+print(f"Order ID: {order.order_id}")
+print(f"Order Date: {order.order_date}")
 
-# Confirm order
-client.orders.confirm(product_order_ids=["order1", "order2"])
+# Confirm orders
+result = client.orders.confirm(
+    product_order_ids=["2024010112345678", "2024010112345679"]
+)
 
-# Ship order
-client.orders.ship(
-    product_order_ids=["order1"],
-    tracking_info={...}
+# Ship orders
+result = client.orders.ship(
+    product_order_ids=["2024010112345678"],
+    shipping_company="CJ대한통운",
+    tracking_number="123456789012",
+    shipping_date="2024-01-15"
+)
+
+# Cancel orders
+result = client.orders.cancel(
+    product_order_ids=["2024010112345678"],
+    cancel_reason="Out of stock"
+)
+```
+
+### Product Images
+
+Upload product images:
+
+```python
+# Upload product image
+with open("product.jpg", "rb") as f:
+    image = client.products.images.upload(
+        file=f.read(),
+        image_type="REPRESENTATIVE"  # or "OPTIONAL"
+    )
+    print(f"Image URL: {image.url}")
+
+# Use uploaded image in product creation
+product = client.products.create(
+    name="Product with Image",
+    sale_price=29900,
+    category_id="50000000",
+    origin_area_code="01",
+    images=[{"url": image.url, "imageType": "REPRESENTATIVE"}]
 )
 ```
 
