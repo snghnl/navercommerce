@@ -352,9 +352,11 @@ class SyncAPIClient(httpx.Client):
             return cast(ResponseT, response.text)
         elif cast_to is type(None):
             return cast(ResponseT, None)
-        elif issubclass(cast_to, BaseModel):
+        elif isinstance(cast_to, type) and issubclass(cast_to, BaseModel):
             return cast(ResponseT, cast_to.model_validate(data))
         else:
+            # For List[Model] and other generic types, just return the data
+            # The type checking is handled by the caller
             return cast(ResponseT, data)
 
     def get(
@@ -733,9 +735,11 @@ class AsyncAPIClient(httpx.AsyncClient):
             return cast(ResponseT, response.text)
         elif cast_to is type(None):
             return cast(ResponseT, None)
-        elif issubclass(cast_to, BaseModel):
+        elif isinstance(cast_to, type) and issubclass(cast_to, BaseModel):
             return cast(ResponseT, cast_to.model_validate(data))
         else:
+            # For List[Model] and other generic types, just return the data
+            # The type checking is handled by the caller
             return cast(ResponseT, data)
 
     async def get(
