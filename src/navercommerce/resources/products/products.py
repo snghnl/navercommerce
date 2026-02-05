@@ -45,6 +45,74 @@ class Products(SyncAPIResource):
 
         return ProductImages(self._client)
 
+    @cached_property
+    def metadata(self) -> Any:
+        """
+        Access the Products Metadata sub-resource.
+
+        Returns:
+            ProductsMetadata resource for brands, attributes, origins, etc.
+
+        Example:
+            ```python
+            brands = client.products.metadata.list_brands()
+            ```
+        """
+        from .metadata import ProductsMetadata
+
+        return ProductsMetadata(self._client)
+
+    @cached_property
+    def delivery(self) -> Any:
+        """
+        Access the Products Delivery sub-resource.
+
+        Returns:
+            ProductsDelivery resource for bundle groups, hope delivery, etc.
+
+        Example:
+            ```python
+            groups = client.products.delivery.list_bundle_groups()
+            ```
+        """
+        from .delivery import ProductsDelivery
+
+        return ProductsDelivery(self._client)
+
+    @cached_property
+    def management(self) -> Any:
+        """
+        Access the Products Management sub-resource.
+
+        Returns:
+            ProductsManagement resource for bulk operations, status changes, etc.
+
+        Example:
+            ```python
+            result = client.products.management.bulk_update(products=[...])
+            ```
+        """
+        from .management import ProductsManagement
+
+        return ProductsManagement(self._client)
+
+    @cached_property
+    def notices(self) -> Any:
+        """
+        Access the Products Notices sub-resource.
+
+        Returns:
+            ProductsNotices resource for product notice types.
+
+        Example:
+            ```python
+            types = client.products.notices.list_types()
+            ```
+        """
+        from .notices import ProductsNotices
+
+        return ProductsNotices(self._client)
+
     def create(
         self,
         *,
@@ -395,6 +463,34 @@ class AsyncProducts(AsyncAPIResource):
         from .images import AsyncProductImages
 
         return AsyncProductImages(self._client)
+
+    @cached_property
+    def metadata(self) -> Any:
+        """Access the async Products Metadata sub-resource."""
+        from .metadata import AsyncProductsMetadata
+
+        return AsyncProductsMetadata(self._client)
+
+    @cached_property
+    def delivery(self) -> Any:
+        """Access the async Products Delivery sub-resource."""
+        from .delivery import AsyncProductsDelivery
+
+        return AsyncProductsDelivery(self._client)
+
+    @cached_property
+    def management(self) -> Any:
+        """Access the async Products Management sub-resource."""
+        from .management import AsyncProductsManagement
+
+        return AsyncProductsManagement(self._client)
+
+    @cached_property
+    def notices(self) -> Any:
+        """Access the async Products Notices sub-resource."""
+        from .notices import AsyncProductsNotices
+
+        return AsyncProductsNotices(self._client)
 
     async def create(
         self,
