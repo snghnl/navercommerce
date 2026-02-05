@@ -124,6 +124,54 @@ class NaverCommerce(SyncAPIClient):
 
         return Seller(self)
 
+    @cached_property
+    def settlement(self) -> Any:
+        """
+        Access the Settlement resource.
+
+        Returns:
+            Settlement resource for financial reporting and commission details.
+        """
+        from .resources.settlement import Settlement
+
+        return Settlement(self)
+
+    @cached_property
+    def inquiries(self) -> Any:
+        """
+        Access the Inquiries resource.
+
+        Returns:
+            Inquiries resource for managing Q&As and seller notices.
+        """
+        from .resources.inquiries import Inquiries
+
+        return Inquiries(self)
+
+    @cached_property
+    def commerce_solutions(self) -> Any:
+        """
+        Access the Commerce Solutions resource.
+
+        Returns:
+            Commerce Solutions resource for subscription and transaction management.
+        """
+        from .resources.commerce_solutions import CommerceSolutions
+
+        return CommerceSolutions(self)
+
+    @cached_property
+    def analytics(self) -> Any:
+        """
+        Access the Analytics resource.
+
+        Returns:
+            Analytics resource for marketing and sales performance data.
+        """
+        from .resources.analytics import Analytics
+
+        return Analytics(self)
+
 
 class AsyncNaverCommerce(AsyncAPIClient):
     """
@@ -240,3 +288,51 @@ class AsyncNaverCommerce(AsyncAPIClient):
         from .resources.seller import AsyncSeller
 
         return AsyncSeller(self)
+
+    @cached_property
+    def settlement(self) -> Any:
+        """
+        Access the Settlement resource.
+
+        Returns:
+            Async Settlement resource for financial reporting and commission details.
+        """
+        from .resources.settlement import AsyncSettlement
+
+        return AsyncSettlement(self)
+
+    @cached_property
+    def inquiries(self) -> Any:
+        """
+        Access the Inquiries resource.
+
+        Returns:
+            Async Inquiries resource for managing Q&As and seller notices.
+        """
+        from .resources.inquiries import AsyncInquiries
+
+        return AsyncInquiries(self)
+
+    @cached_property
+    def commerce_solutions(self) -> Any:
+        """
+        Access the Commerce Solutions resource.
+
+        Returns:
+            Async Commerce Solutions resource for subscription and transaction management.
+        """
+        from .resources.commerce_solutions import AsyncCommerceSolutions
+
+        return AsyncCommerceSolutions(self)
+
+    @cached_property
+    def analytics(self) -> Any:
+        """
+        Access the Analytics resource.
+
+        Returns:
+            Async Analytics resource for marketing and sales performance data.
+        """
+        from .resources.analytics import AsyncAnalytics
+
+        return AsyncAnalytics(self)
