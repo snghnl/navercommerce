@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from typing import List, Optional
 
+from pydantic import Field
+
 from ..._models import BaseModel
 
 
@@ -20,12 +22,12 @@ class Account(BaseModel):
         business_registration_no: Business registration number
     """
 
-    seller_id: str
-    seller_name: str
-    tel_no: Optional[str] = None
+    seller_id: str = Field(alias="sellerId")
+    seller_name: str = Field(alias="sellerName")
+    tel_no: Optional[str] = Field(None, alias="telNo")
     email: Optional[str] = None
-    representative_name: Optional[str] = None
-    business_registration_no: Optional[str] = None
+    representative_name: Optional[str] = Field(None, alias="representativeName")
+    business_registration_no: Optional[str] = Field(None, alias="businessRegistrationNo")
 
 
 class Channel(BaseModel):
@@ -38,6 +40,6 @@ class Channel(BaseModel):
         is_default: Whether this is the default channel
     """
 
-    channel_no: str
-    channel_name: str
-    is_default: bool = False
+    channel_no: str = Field(alias="channelNo")
+    channel_name: str = Field(alias="channelName")
+    is_default: bool = Field(False, alias="isDefault")
