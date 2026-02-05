@@ -24,6 +24,27 @@ class Products(SyncAPIResource):
     - Product image uploads (via images sub-resource)
     """
 
+    @cached_property
+    def images(self) -> Any:
+        """
+        Access the ProductImages subresource.
+
+        Returns:
+            ProductImages resource for uploading product images.
+
+        Example:
+            ```python
+            with open("product.jpg", "rb") as f:
+                image = client.products.images.upload(
+                    file=f.read(),
+                    image_type="REPRESENTATIVE"
+                )
+            ```
+        """
+        from .images import ProductImages
+
+        return ProductImages(self._client)
+
     def create(
         self,
         *,
@@ -353,6 +374,27 @@ class AsyncProducts(AsyncAPIResource):
     - Product brands
     - Product image uploads (via images sub-resource)
     """
+
+    @cached_property
+    def images(self) -> Any:
+        """
+        Access the ProductImages subresource.
+
+        Returns:
+            AsyncProductImages resource for uploading product images.
+
+        Example:
+            ```python
+            with open("product.jpg", "rb") as f:
+                image = await client.products.images.upload(
+                    file=f.read(),
+                    image_type="REPRESENTATIVE"
+                )
+            ```
+        """
+        from .images import AsyncProductImages
+
+        return AsyncProductImages(self._client)
 
     async def create(
         self,
