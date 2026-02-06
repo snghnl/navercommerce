@@ -2,13 +2,10 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Generic, Type, TypeVar, cast
+from typing import Any, Generic, TypeVar
 
 from pydantic import BaseModel as PydanticBaseModel
 from pydantic import ConfigDict
-
-if TYPE_CHECKING:
-    from typing_extensions import Self
 
 ModelT = TypeVar("ModelT", bound="BaseModel")
 
@@ -48,7 +45,7 @@ class BaseModel(PydanticBaseModel):
 
     @classmethod
     def construct_type(
-        cls: Type[ModelT],
+        cls: type[ModelT],
         value: Any,
     ) -> ModelT:
         """
@@ -75,7 +72,7 @@ class BaseModel(PydanticBaseModel):
 
     @classmethod
     def validate_type(
-        cls: Type[ModelT],
+        cls: type[ModelT],
         value: Any,
     ) -> ModelT:
         """
@@ -127,7 +124,7 @@ class GenericModel(BaseModel, Generic[ModelT]):
     pass
 
 
-def construct_type(*, value: object, type_: Type[ModelT]) -> ModelT:
+def construct_type(*, value: object, type_: type[ModelT]) -> ModelT:
     """
     Construct a model instance of the given type from a value.
 
@@ -149,13 +146,12 @@ def construct_type(*, value: object, type_: Type[ModelT]) -> ModelT:
         )
 
     if isinstance(value, dict):
-        if issubclass(type_, BaseModel):
-            return cast(ModelT, type_.model_construct(**value))
+        return type_.model_construct(**value)
 
     raise TypeError(f"Cannot construct {type_.__name__} from {type(value).__name__}")
 
 
-def validate_type(*, value: object, type_: Type[ModelT]) -> ModelT:
+def validate_type(*, value: object, type_: type[ModelT]) -> ModelT:
     """
     Validate and construct a model instance of the given type from a value.
 
@@ -169,7 +165,5 @@ def validate_type(*, value: object, type_: Type[ModelT]) -> ModelT:
     if isinstance(value, type_):
         return value
 
-    if issubclass(type_, BaseModel):
-        return cast(ModelT, type_.model_validate(value))
+    return type_.model_validate(value)
 
-    raise TypeError(f"Cannot validate {type_.__name__} from {type(value).__name__}")

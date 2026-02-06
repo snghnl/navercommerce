@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import os
 from functools import cached_property
-from typing import Any, Optional
+from typing import Any
 
 from ._base_client import AsyncAPIClient, SyncAPIClient
 from ._constants import BASE_URL, ENV_CLIENT_ID, ENV_CLIENT_SECRET
@@ -55,8 +55,8 @@ class NaverCommerce(SyncAPIClient):
     def __init__(
         self,
         *,
-        client_id: Optional[str] = None,
-        client_secret: Optional[str] = None,
+        client_id: str | None = None,
+        client_secret: str | None = None,
         base_url: str = BASE_URL,
         timeout: Timeout = None,
         max_retries: int = 2,
@@ -220,8 +220,8 @@ class AsyncNaverCommerce(AsyncAPIClient):
     def __init__(
         self,
         *,
-        client_id: Optional[str] = None,
-        client_secret: Optional[str] = None,
+        client_id: str | None = None,
+        client_secret: str | None = None,
         base_url: str = BASE_URL,
         timeout: Timeout = None,
         max_retries: int = 2,

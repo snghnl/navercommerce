@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Dict, List, Optional
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     import httpx
@@ -21,10 +21,10 @@ class APIError(NaverCommerceError):
         self,
         message: str,
         *,
-        code: Optional[str] = None,
-        timestamp: Optional[str] = None,
-        trace_id: Optional[str] = None,
-        invalid_inputs: Optional[List[Dict[str, Any]]] = None,
+        code: str | None = None,
+        timestamp: str | None = None,
+        trace_id: str | None = None,
+        invalid_inputs: list[dict[str, Any]] | None = None,
     ) -> None:
         super().__init__(message)
         self.message = message
@@ -49,7 +49,7 @@ class APIConnectionError(APIError):
         self,
         message: str = "Connection error occurred",
         *,
-        request: Optional[httpx.Request] = None,
+        request: httpx.Request | None = None,
     ) -> None:
         super().__init__(message)
         self.request = request
@@ -62,7 +62,7 @@ class APITimeoutError(APIConnectionError):
         self,
         message: str = "Request timed out",
         *,
-        request: Optional[httpx.Request] = None,
+        request: httpx.Request | None = None,
     ) -> None:
         super().__init__(message, request=request)
 
@@ -75,11 +75,11 @@ class APIStatusError(APIError):
         message: str,
         *,
         response: httpx.Response,
-        body: Optional[Dict[str, Any]] = None,
-        code: Optional[str] = None,
-        timestamp: Optional[str] = None,
-        trace_id: Optional[str] = None,
-        invalid_inputs: Optional[List[Dict[str, Any]]] = None,
+        body: dict[str, Any] | None = None,
+        code: str | None = None,
+        timestamp: str | None = None,
+        trace_id: str | None = None,
+        invalid_inputs: list[dict[str, Any]] | None = None,
     ) -> None:
         super().__init__(
             message,
@@ -198,14 +198,14 @@ class TokenRefreshError(OAuthError):
         self,
         message: str = "Failed to refresh access token",
         *,
-        cause: Optional[Exception] = None,
+        cause: Exception | None = None,
     ) -> None:
         super().__init__(message)
         self.cause = cause
 
 
 # Error code to exception mapping
-ERROR_CODE_TO_EXCEPTION: Dict[str, type[APIStatusError]] = {
+ERROR_CODE_TO_EXCEPTION: dict[str, type[APIStatusError]] = {
     # 400 errors
     "E400S00": BadRequestError,
     "E400S01": BadRequestError,
@@ -228,7 +228,7 @@ ERROR_CODE_TO_EXCEPTION: Dict[str, type[APIStatusError]] = {
 }
 
 # HTTP status code to exception mapping (fallback)
-STATUS_CODE_TO_EXCEPTION: Dict[int, type[APIStatusError]] = {
+STATUS_CODE_TO_EXCEPTION: dict[int, type[APIStatusError]] = {
     400: BadRequestError,
     401: AuthenticationError,
     403: PermissionDeniedError,

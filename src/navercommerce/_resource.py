@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import time
-from typing import TYPE_CHECKING, Any, Optional, Type, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar
 
 if TYPE_CHECKING:
     from ._client import AsyncNaverCommerce, NaverCommerce
@@ -29,8 +29,8 @@ class SyncAPIResource:
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
-        options: Optional[RequestOptions] = None,
+        cast_to: type[ResponseT],
+        options: RequestOptions | None = None,
         **kwargs: Any,
     ) -> ResponseT:
         """Make a GET request."""
@@ -40,10 +40,10 @@ class SyncAPIResource:
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
-        body: Optional[Body] = None,
-        files: Optional[dict[str, FileTypes]] = None,
-        options: Optional[RequestOptions] = None,
+        cast_to: type[ResponseT],
+        body: Body | None = None,
+        files: dict[str, FileTypes] | None = None,
+        options: RequestOptions | None = None,
         **kwargs: Any,
     ) -> ResponseT:
         """Make a POST request."""
@@ -55,9 +55,9 @@ class SyncAPIResource:
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
-        body: Optional[Body] = None,
-        options: Optional[RequestOptions] = None,
+        cast_to: type[ResponseT],
+        body: Body | None = None,
+        options: RequestOptions | None = None,
         **kwargs: Any,
     ) -> ResponseT:
         """Make a PUT request."""
@@ -69,9 +69,9 @@ class SyncAPIResource:
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
-        body: Optional[Body] = None,
-        options: Optional[RequestOptions] = None,
+        cast_to: type[ResponseT],
+        body: Body | None = None,
+        options: RequestOptions | None = None,
         **kwargs: Any,
     ) -> ResponseT:
         """Make a PATCH request."""
@@ -83,8 +83,8 @@ class SyncAPIResource:
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
-        options: Optional[RequestOptions] = None,
+        cast_to: type[ResponseT],
+        options: RequestOptions | None = None,
         **kwargs: Any,
     ) -> ResponseT:
         """Make a DELETE request."""
@@ -112,8 +112,8 @@ class AsyncAPIResource:
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
-        options: Optional[RequestOptions] = None,
+        cast_to: type[ResponseT],
+        options: RequestOptions | None = None,
         **kwargs: Any,
     ) -> ResponseT:
         """Make a GET request."""
@@ -125,10 +125,10 @@ class AsyncAPIResource:
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
-        body: Optional[Body] = None,
-        files: Optional[dict[str, FileTypes]] = None,
-        options: Optional[RequestOptions] = None,
+        cast_to: type[ResponseT],
+        body: Body | None = None,
+        files: dict[str, FileTypes] | None = None,
+        options: RequestOptions | None = None,
         **kwargs: Any,
     ) -> ResponseT:
         """Make a POST request."""
@@ -140,9 +140,9 @@ class AsyncAPIResource:
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
-        body: Optional[Body] = None,
-        options: Optional[RequestOptions] = None,
+        cast_to: type[ResponseT],
+        body: Body | None = None,
+        options: RequestOptions | None = None,
         **kwargs: Any,
     ) -> ResponseT:
         """Make a PUT request."""
@@ -154,9 +154,9 @@ class AsyncAPIResource:
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
-        body: Optional[Body] = None,
-        options: Optional[RequestOptions] = None,
+        cast_to: type[ResponseT],
+        body: Body | None = None,
+        options: RequestOptions | None = None,
         **kwargs: Any,
     ) -> ResponseT:
         """Make a PATCH request."""
@@ -168,8 +168,8 @@ class AsyncAPIResource:
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
-        options: Optional[RequestOptions] = None,
+        cast_to: type[ResponseT],
+        options: RequestOptions | None = None,
         **kwargs: Any,
     ) -> ResponseT:
         """Make a DELETE request."""

@@ -2,14 +2,11 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Dict, Generic, Optional, Type, TypeVar, cast
+from typing import Any, Generic, TypeVar, cast
 
 import httpx
 
 from ._models import BaseModel
-
-if TYPE_CHECKING:
-    from ._types import Headers
 
 ResponseT = TypeVar("ResponseT")
 
@@ -33,8 +30,8 @@ class APIResponse(Generic[ResponseT]):
         self,
         *,
         response: httpx.Response,
-        cast_to: Type[ResponseT],
-        parsed: Optional[ResponseT] = None,
+        cast_to: type[ResponseT],
+        parsed: ResponseT | None = None,
     ) -> None:
         self._response = response
         self._cast_to = cast_to
@@ -125,8 +122,8 @@ class AsyncAPIResponse(Generic[ResponseT]):
         self,
         *,
         response: httpx.Response,
-        cast_to: Type[ResponseT],
-        parsed: Optional[ResponseT] = None,
+        cast_to: type[ResponseT],
+        parsed: ResponseT | None = None,
     ) -> None:
         self._response = response
         self._cast_to = cast_to

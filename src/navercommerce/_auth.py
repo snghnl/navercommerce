@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import time
 from threading import Lock
-from typing import TYPE_CHECKING, Any, Dict, Optional
+from typing import Any, Optional
 
 import httpx
 
@@ -14,9 +14,6 @@ from ._constants import (
     TOKEN_REFRESH_THRESHOLD_SECONDS,
 )
 from ._exceptions import TokenRefreshError
-
-if TYPE_CHECKING:
-    from ._types import OAuthGrantType
 
 
 class TokenInfo:

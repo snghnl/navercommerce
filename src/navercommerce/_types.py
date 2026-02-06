@@ -2,13 +2,11 @@
 
 from __future__ import annotations
 
+from collections.abc import Mapping
 from typing import (
     TYPE_CHECKING,
     Any,
-    Dict,
     Literal,
-    Mapping,
-    Optional,
     TypeVar,
     Union,
 )
@@ -36,11 +34,11 @@ FileTypes: TypeAlias = Union[
     # file (or bytes)
     bytes,
     # (filename, file (or bytes))
-    tuple[Optional[str], bytes],
+    tuple[str | None, bytes],
     # (filename, file (or bytes), content_type)
-    tuple[Optional[str], bytes, Optional[str]],
+    tuple[str | None, bytes, str | None],
     # (filename, file (or bytes), content_type, headers)
-    tuple[Optional[str], bytes, Optional[str], Mapping[str, str]],
+    tuple[str | None, bytes, str | None, Mapping[str, str]],
 ]
 
 
@@ -84,8 +82,8 @@ class RequestOptions(TypedDict, total=False):
     headers: Headers
     max_retries: int
     timeout: Timeout
-    extra_json: Dict[str, Any]
-    extra_query: Dict[str, Any]
+    extra_json: dict[str, Any]
+    extra_query: dict[str, Any]
 
 
 # HTTP method types
