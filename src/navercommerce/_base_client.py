@@ -3,16 +3,11 @@
 from __future__ import annotations
 
 import time
+from collections.abc import Mapping
 from typing import (
     TYPE_CHECKING,
     Any,
-    Dict,
-    List,
-    Mapping,
-    Optional,
-    Type,
     TypeVar,
-    Union,
     cast,
 )
 
@@ -34,11 +29,9 @@ from ._exceptions import (
     APIError,
     APIStatusError,
     APITimeoutError,
-    AuthenticationError,
 )
 from ._models import BaseModel
-from ._response import APIResponse, AsyncAPIResponse
-from ._types import Headers, NotGiven, Query, RequestOptions, Timeout, not_given
+from ._types import Headers, RequestOptions, Timeout
 
 if TYPE_CHECKING:
     from ._types import Body, FileTypes, HttpMethod
@@ -47,11 +40,11 @@ ResponseT = TypeVar("ResponseT")
 
 
 def _merge_mappings(
-    map1: Optional[Mapping[str, Any]],
-    map2: Optional[Mapping[str, Any]],
-) -> Dict[str, Any]:
+    map1: Mapping[str, Any] | None,
+    map2: Mapping[str, Any] | None,
+) -> dict[str, Any]:
     """Merge two mappings, with map2 taking precedence."""
-    result: Dict[str, Any] = {}
+    result: dict[str, Any] = {}
     if map1:
         result.update(map1)
     if map2:
@@ -59,11 +52,11 @@ def _merge_mappings(
     return result
 
 
-class SyncAPIClient(httpx.Client):
+class SyncAPIClient:
     """
     Synchronous API client with OAuth authentication, retry logic, and error handling.
 
-    This client extends httpx.Client and provides:
+    This client wraps httpx.Client and provides:
     - Automatic OAuth 2.0 token management
     - Exponential backoff retry logic
     - Comprehensive error handling with Naver-specific error codes
@@ -78,7 +71,7 @@ class SyncAPIClient(httpx.Client):
         base_url: str,
         timeout: Timeout = DEFAULT_TIMEOUT,
         max_retries: int = DEFAULT_MAX_RETRIES,
-        http_client: Optional[httpx.Client] = None,
+        http_client: httpx.Client | None = None,
         **kwargs: Any,
     ) -> None:
         # Initialize the token manager
@@ -92,8 +85,8 @@ class SyncAPIClient(httpx.Client):
         self._max_retries = max_retries
         self._base_url = base_url
 
-        # Initialize the httpx.Client
-        super().__init__(
+        # Initialize the httpx.Client (composition pattern)
+        self._client = httpx.Client(
             base_url=base_url,
             timeout=timeout if timeout is not None else DEFAULT_TIMEOUT,
             **kwargs,
@@ -102,9 +95,9 @@ class SyncAPIClient(httpx.Client):
     def _prepare_request(
         self,
         *,
-        headers: Optional[Headers] = None,
+        headers: Headers | None = None,
         **kwargs: Any,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Prepare request parameters by adding authentication and default headers.
 
@@ -119,7 +112,7 @@ class SyncAPIClient(httpx.Client):
         access_token = self._token_manager.get_token()
 
         # Merge headers
-        request_headers: Dict[str, str] = {
+        request_headers: dict[str, str] = {
             "Authorization": f"Bearer {access_token}",
             "User-Agent": USER_AGENT,
         }
@@ -180,11 +173,11 @@ class SyncAPIClient(httpx.Client):
             body = None
 
         # Extract error information from the response
-        error_code: Optional[str] = None
+        error_code: str | None = None
         error_message = f"HTTP {response.status_code}"
-        timestamp: Optional[str] = None
-        trace_id: Optional[str] = None
-        invalid_inputs: Optional[List[Dict[str, Any]]] = None
+        timestamp: str | None = None
+        trace_id: str | None = None
+        invalid_inputs: list[dict[str, Any]] | None = None
 
         if body and isinstance(body, dict):
             error_code = body.get("code")
@@ -194,7 +187,7 @@ class SyncAPIClient(httpx.Client):
             invalid_inputs = body.get("invalidInputs")
 
         # Determine the exception class to raise
-        exception_class: Type[APIStatusError] = APIStatusError
+        exception_class: type[APIStatusError] = APIStatusError
 
         # First try to match by error code
         if error_code and error_code in ERROR_CODE_TO_EXCEPTION:
@@ -218,8 +211,8 @@ class SyncAPIClient(httpx.Client):
         method: HttpMethod,
         path: str,
         *,
-        cast_to: Type[ResponseT],
-        options: Optional[RequestOptions] = None,
+        cast_to: type[ResponseT],
+        options: RequestOptions | None = None,
         **kwargs: Any,
     ) -> ResponseT:
         """
@@ -262,12 +255,9 @@ class SyncAPIClient(httpx.Client):
         # Prepare request with auth
         kwargs = self._prepare_request(headers=kwargs.get("headers"), **kwargs)
 
-        # Make the request with retries
-        last_exception: Optional[Exception] = None
-
         for attempt in range(max_retries + 1):
             try:
-                response = self.request(method, path, **kwargs)
+                response = self._client.request(method, path, **kwargs)
 
                 # Check if we should retry
                 if response.status_code >= 400:
@@ -291,14 +281,12 @@ class SyncAPIClient(httpx.Client):
                 return self._parse_response(response, cast_to=cast_to)
 
             except httpx.TimeoutException as e:
-                last_exception = e
                 if attempt < max_retries:
                     time.sleep(self._calculate_retry_delay(attempt))
                     continue
                 raise APITimeoutError(request=e.request) from e
 
             except httpx.RequestError as e:
-                last_exception = e
                 if attempt < max_retries:
                     time.sleep(self._calculate_retry_delay(attempt))
                     continue
@@ -317,7 +305,7 @@ class SyncAPIClient(httpx.Client):
         self,
         response: httpx.Response,
         *,
-        cast_to: Type[ResponseT],
+        cast_to: type[ResponseT],
     ) -> ResponseT:
         """
         Parse an HTTP response into the target type.
@@ -352,10 +340,10 @@ class SyncAPIClient(httpx.Client):
             return cast(ResponseT, response.text)
         elif cast_to is type(None):
             return cast(ResponseT, None)
-        elif isinstance(cast_to, type) and issubclass(cast_to, BaseModel):
+        elif issubclass(cast_to, BaseModel):
             return cast(ResponseT, cast_to.model_validate(data))
         else:
-            # For List[Model] and other generic types, just return the data
+            # For list[Model] and other generic types, just return the data
             # The type checking is handled by the caller
             return cast(ResponseT, data)
 
@@ -363,8 +351,8 @@ class SyncAPIClient(httpx.Client):
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
-        options: Optional[RequestOptions] = None,
+        cast_to: type[ResponseT],
+        options: RequestOptions | None = None,
         **kwargs: Any,
     ) -> ResponseT:
         """Make a GET request."""
@@ -374,10 +362,10 @@ class SyncAPIClient(httpx.Client):
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
-        body: Optional[Body] = None,
-        files: Optional[Mapping[str, FileTypes]] = None,
-        options: Optional[RequestOptions] = None,
+        cast_to: type[ResponseT],
+        body: Body | None = None,
+        files: Mapping[str, FileTypes] | None = None,
+        options: RequestOptions | None = None,
         **kwargs: Any,
     ) -> ResponseT:
         """Make a POST request."""
@@ -391,9 +379,9 @@ class SyncAPIClient(httpx.Client):
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
-        body: Optional[Body] = None,
-        options: Optional[RequestOptions] = None,
+        cast_to: type[ResponseT],
+        body: Body | None = None,
+        options: RequestOptions | None = None,
         **kwargs: Any,
     ) -> ResponseT:
         """Make a PUT request."""
@@ -405,9 +393,9 @@ class SyncAPIClient(httpx.Client):
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
-        body: Optional[Body] = None,
-        options: Optional[RequestOptions] = None,
+        cast_to: type[ResponseT],
+        body: Body | None = None,
+        options: RequestOptions | None = None,
         **kwargs: Any,
     ) -> ResponseT:
         """Make a PATCH request."""
@@ -419,8 +407,8 @@ class SyncAPIClient(httpx.Client):
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
-        options: Optional[RequestOptions] = None,
+        cast_to: type[ResponseT],
+        options: RequestOptions | None = None,
         **kwargs: Any,
     ) -> ResponseT:
         """Make a DELETE request."""
@@ -431,7 +419,7 @@ class SyncAPIClient(httpx.Client):
     def close(self) -> None:
         """Close the client and clean up resources."""
         self._token_manager.close()
-        super().close()
+        self._client.close()
 
     def __enter__(self) -> SyncAPIClient:
         return self
@@ -440,11 +428,11 @@ class SyncAPIClient(httpx.Client):
         self.close()
 
 
-class AsyncAPIClient(httpx.AsyncClient):
+class AsyncAPIClient:
     """
     Asynchronous API client with OAuth authentication, retry logic, and error handling.
 
-    This client extends httpx.AsyncClient and provides:
+    This client wraps httpx.AsyncClient and provides:
     - Automatic OAuth 2.0 token management
     - Exponential backoff retry logic
     - Comprehensive error handling with Naver-specific error codes
@@ -459,7 +447,7 @@ class AsyncAPIClient(httpx.AsyncClient):
         base_url: str,
         timeout: Timeout = DEFAULT_TIMEOUT,
         max_retries: int = DEFAULT_MAX_RETRIES,
-        http_client: Optional[httpx.AsyncClient] = None,
+        http_client: httpx.AsyncClient | None = None,
         **kwargs: Any,
     ) -> None:
         # Initialize the token manager
@@ -473,8 +461,8 @@ class AsyncAPIClient(httpx.AsyncClient):
         self._max_retries = max_retries
         self._base_url = base_url
 
-        # Initialize the httpx.AsyncClient
-        super().__init__(
+        # Initialize the httpx.AsyncClient (composition pattern)
+        self._client = httpx.AsyncClient(
             base_url=base_url,
             timeout=timeout if timeout is not None else DEFAULT_TIMEOUT,
             **kwargs,
@@ -483,9 +471,9 @@ class AsyncAPIClient(httpx.AsyncClient):
     async def _prepare_request(
         self,
         *,
-        headers: Optional[Headers] = None,
+        headers: Headers | None = None,
         **kwargs: Any,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Prepare request parameters by adding authentication and default headers.
 
@@ -500,7 +488,7 @@ class AsyncAPIClient(httpx.AsyncClient):
         access_token = await self._token_manager.get_token()
 
         # Merge headers
-        request_headers: Dict[str, str] = {
+        request_headers: dict[str, str] = {
             "Authorization": f"Bearer {access_token}",
             "User-Agent": USER_AGENT,
         }
@@ -561,11 +549,11 @@ class AsyncAPIClient(httpx.AsyncClient):
             body = None
 
         # Extract error information from the response
-        error_code: Optional[str] = None
+        error_code: str | None = None
         error_message = f"HTTP {response.status_code}"
-        timestamp: Optional[str] = None
-        trace_id: Optional[str] = None
-        invalid_inputs: Optional[List[Dict[str, Any]]] = None
+        timestamp: str | None = None
+        trace_id: str | None = None
+        invalid_inputs: list[dict[str, Any]] | None = None
 
         if body and isinstance(body, dict):
             error_code = body.get("code")
@@ -575,7 +563,7 @@ class AsyncAPIClient(httpx.AsyncClient):
             invalid_inputs = body.get("invalidInputs")
 
         # Determine the exception class to raise
-        exception_class: Type[APIStatusError] = APIStatusError
+        exception_class: type[APIStatusError] = APIStatusError
 
         # First try to match by error code
         if error_code and error_code in ERROR_CODE_TO_EXCEPTION:
@@ -599,8 +587,8 @@ class AsyncAPIClient(httpx.AsyncClient):
         method: HttpMethod,
         path: str,
         *,
-        cast_to: Type[ResponseT],
-        options: Optional[RequestOptions] = None,
+        cast_to: type[ResponseT],
+        options: RequestOptions | None = None,
         **kwargs: Any,
     ) -> ResponseT:
         """
@@ -645,12 +633,9 @@ class AsyncAPIClient(httpx.AsyncClient):
         # Prepare request with auth
         kwargs = await self._prepare_request(headers=kwargs.get("headers"), **kwargs)
 
-        # Make the request with retries
-        last_exception: Optional[Exception] = None
-
         for attempt in range(max_retries + 1):
             try:
-                response = await self.request(method, path, **kwargs)
+                response = await self._client.request(method, path, **kwargs)
 
                 # Check if we should retry
                 if response.status_code >= 400:
@@ -674,14 +659,12 @@ class AsyncAPIClient(httpx.AsyncClient):
                 return await self._parse_response(response, cast_to=cast_to)
 
             except httpx.TimeoutException as e:
-                last_exception = e
                 if attempt < max_retries:
                     await asyncio.sleep(self._calculate_retry_delay(attempt))
                     continue
                 raise APITimeoutError(request=e.request) from e
 
             except httpx.RequestError as e:
-                last_exception = e
                 if attempt < max_retries:
                     await asyncio.sleep(self._calculate_retry_delay(attempt))
                     continue
@@ -700,7 +683,7 @@ class AsyncAPIClient(httpx.AsyncClient):
         self,
         response: httpx.Response,
         *,
-        cast_to: Type[ResponseT],
+        cast_to: type[ResponseT],
     ) -> ResponseT:
         """
         Parse an HTTP response into the target type.
@@ -735,10 +718,10 @@ class AsyncAPIClient(httpx.AsyncClient):
             return cast(ResponseT, response.text)
         elif cast_to is type(None):
             return cast(ResponseT, None)
-        elif isinstance(cast_to, type) and issubclass(cast_to, BaseModel):
+        elif issubclass(cast_to, BaseModel):
             return cast(ResponseT, cast_to.model_validate(data))
         else:
-            # For List[Model] and other generic types, just return the data
+            # For list[Model] and other generic types, just return the data
             # The type checking is handled by the caller
             return cast(ResponseT, data)
 
@@ -746,8 +729,8 @@ class AsyncAPIClient(httpx.AsyncClient):
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
-        options: Optional[RequestOptions] = None,
+        cast_to: type[ResponseT],
+        options: RequestOptions | None = None,
         **kwargs: Any,
     ) -> ResponseT:
         """Make a GET request."""
@@ -759,10 +742,10 @@ class AsyncAPIClient(httpx.AsyncClient):
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
-        body: Optional[Body] = None,
-        files: Optional[Mapping[str, FileTypes]] = None,
-        options: Optional[RequestOptions] = None,
+        cast_to: type[ResponseT],
+        body: Body | None = None,
+        files: Mapping[str, FileTypes] | None = None,
+        options: RequestOptions | None = None,
         **kwargs: Any,
     ) -> ResponseT:
         """Make a POST request."""
@@ -778,9 +761,9 @@ class AsyncAPIClient(httpx.AsyncClient):
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
-        body: Optional[Body] = None,
-        options: Optional[RequestOptions] = None,
+        cast_to: type[ResponseT],
+        body: Body | None = None,
+        options: RequestOptions | None = None,
         **kwargs: Any,
     ) -> ResponseT:
         """Make a PUT request."""
@@ -794,9 +777,9 @@ class AsyncAPIClient(httpx.AsyncClient):
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
-        body: Optional[Body] = None,
-        options: Optional[RequestOptions] = None,
+        cast_to: type[ResponseT],
+        body: Body | None = None,
+        options: RequestOptions | None = None,
         **kwargs: Any,
     ) -> ResponseT:
         """Make a PATCH request."""
@@ -810,8 +793,8 @@ class AsyncAPIClient(httpx.AsyncClient):
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
-        options: Optional[RequestOptions] = None,
+        cast_to: type[ResponseT],
+        options: RequestOptions | None = None,
         **kwargs: Any,
     ) -> ResponseT:
         """Make a DELETE request."""
@@ -822,7 +805,7 @@ class AsyncAPIClient(httpx.AsyncClient):
     async def aclose(self) -> None:
         """Close the client and clean up resources."""
         await self._token_manager.aclose()
-        await super().aclose()
+        await self._client.aclose()
 
     async def __aenter__(self) -> AsyncAPIClient:
         return self
