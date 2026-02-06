@@ -424,5 +424,5 @@ class AsyncSettlement(AsyncAPIResource):
         return await self._get(
             "/v1/pay-settle/vat/case",
             cast_to=SettlementResponse,
-            options={"params": kwargs},
+            options={"params": params},
         )
