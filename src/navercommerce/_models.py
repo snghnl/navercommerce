@@ -66,9 +66,7 @@ class BaseModel(PydanticBaseModel):
         if isinstance(value, dict):
             return cls.model_construct(**value)
 
-        raise TypeError(
-            f"Cannot construct {cls.__name__} from {type(value).__name__}"
-        )
+        raise TypeError(f"Cannot construct {cls.__name__} from {type(value).__name__}")
 
     @classmethod
     def validate_type(
@@ -141,9 +139,7 @@ def construct_type(*, value: object, type_: type[ModelT]) -> ModelT:
     if isinstance(value, BaseModel):
         if isinstance(value, type_):
             return value
-        raise TypeError(
-            f"Cannot construct {type_.__name__} from {type(value).__name__}"
-        )
+        raise TypeError(f"Cannot construct {type_.__name__} from {type(value).__name__}")
 
     if isinstance(value, dict):
         return type_.model_construct(**value)
@@ -166,4 +162,3 @@ def validate_type(*, value: object, type_: type[ModelT]) -> ModelT:
         return value
 
     return type_.model_validate(value)
-

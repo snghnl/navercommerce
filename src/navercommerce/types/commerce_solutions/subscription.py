@@ -45,7 +45,7 @@ class SubscriptionResponse(BaseModel):
     """Subscription query response."""
 
     subscription: Optional[SubscriptionInfo] = None
-    
+
     model_config = {"extra": "allow"}
 
 

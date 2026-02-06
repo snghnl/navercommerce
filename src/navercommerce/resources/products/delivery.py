@@ -297,9 +297,7 @@ class AsyncProductsDelivery(AsyncAPIResource):
             options={"params": kwargs},
         )
 
-    async def get_bundle_group(
-        self, group_id: str, **kwargs: Any
-    ) -> Dict[str, Any]:
+    async def get_bundle_group(self, group_id: str, **kwargs: Any) -> Dict[str, Any]:
         """Get bundle group by ID."""
         return await self._get(
             f"/v1/product-delivery-info/bundle-groups/{group_id}",
@@ -307,9 +305,7 @@ class AsyncProductsDelivery(AsyncAPIResource):
             options={"params": kwargs},
         )
 
-    async def create_bundle_group(
-        self, *, name: str, **kwargs: Any
-    ) -> Dict[str, Any]:
+    async def create_bundle_group(self, *, name: str, **kwargs: Any) -> Dict[str, Any]:
         """Create a bundle group."""
         body: Dict[str, Any] = {"name": name}
         body.update(kwargs)
@@ -341,9 +337,7 @@ class AsyncProductsDelivery(AsyncAPIResource):
             options={"params": kwargs},
         )
 
-    async def get_hope_delivery_group(
-        self, group_id: str, **kwargs: Any
-    ) -> Dict[str, Any]:
+    async def get_hope_delivery_group(self, group_id: str, **kwargs: Any) -> Dict[str, Any]:
         """Get hope delivery group by ID."""
         return await self._get(
             f"/v1/product-delivery-info/hope-delivery-groups/{group_id}",
@@ -351,9 +345,7 @@ class AsyncProductsDelivery(AsyncAPIResource):
             options={"params": kwargs},
         )
 
-    async def create_hope_delivery_group(
-        self, *, name: str, **kwargs: Any
-    ) -> Dict[str, Any]:
+    async def create_hope_delivery_group(self, *, name: str, **kwargs: Any) -> Dict[str, Any]:
         """Create a hope delivery group."""
         body: Dict[str, Any] = {"name": name}
         body.update(kwargs)

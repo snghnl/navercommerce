@@ -543,6 +543,11 @@ dev = [
     { name = "ruff" },
 ]
 
+[package.dev-dependencies]
+dev = [
+    { name = "ruff" },
+]
+
 [package.metadata]
 requires-dist = [
     { name = "anyio", specifier = ">=3.5.0" },
@@ -560,6 +565,9 @@ requires-dist = [
     { name = "typing-extensions", specifier = ">=4.11" },
 ]
 provides-extras = ["dev"]
+
+[package.metadata.requires-dev]
+dev = [{ name = "ruff", specifier = ">=0.15.0" }]
 
 [[package]]
 name = "nodeenv"

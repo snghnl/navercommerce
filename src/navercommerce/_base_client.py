@@ -266,9 +266,7 @@ class SyncAPIClient:
                         if response.status_code == 401:
                             self._token_manager.clear_token()
                             # Re-prepare request with new token
-                            kwargs = self._prepare_request(
-                                headers=kwargs.get("headers"), **kwargs
-                            )
+                            kwargs = self._prepare_request(headers=kwargs.get("headers"), **kwargs)
 
                         # Wait before retry
                         time.sleep(self._calculate_retry_delay(attempt))
@@ -412,9 +410,7 @@ class SyncAPIClient:
         **kwargs: Any,
     ) -> ResponseT:
         """Make a DELETE request."""
-        return self._request(
-            "DELETE", path, cast_to=cast_to, options=options, **kwargs
-        )
+        return self._request("DELETE", path, cast_to=cast_to, options=options, **kwargs)
 
     def close(self) -> None:
         """Close the client and clean up resources."""
@@ -644,9 +640,7 @@ class AsyncAPIClient:
                         if response.status_code == 401:
                             self._token_manager.clear_token()
                             # Re-prepare request with new token
-                            kwargs = await self._prepare_request(
-                                headers=kwargs.get("headers"), **kwargs
-                            )
+                            kwargs = await self._prepare_request(headers=kwargs.get("headers"), **kwargs)
 
                         # Wait before retry
                         await asyncio.sleep(self._calculate_retry_delay(attempt))
@@ -734,9 +728,7 @@ class AsyncAPIClient:
         **kwargs: Any,
     ) -> ResponseT:
         """Make a GET request."""
-        return await self._request(
-            "GET", path, cast_to=cast_to, options=options, **kwargs
-        )
+        return await self._request("GET", path, cast_to=cast_to, options=options, **kwargs)
 
     async def post(
         self,
@@ -753,9 +745,7 @@ class AsyncAPIClient:
             kwargs["json"] = body
         if files is not None:
             kwargs["files"] = files
-        return await self._request(
-            "POST", path, cast_to=cast_to, options=options, **kwargs
-        )
+        return await self._request("POST", path, cast_to=cast_to, options=options, **kwargs)
 
     async def put(
         self,
@@ -769,9 +759,7 @@ class AsyncAPIClient:
         """Make a PUT request."""
         if body is not None:
             kwargs["json"] = body
-        return await self._request(
-            "PUT", path, cast_to=cast_to, options=options, **kwargs
-        )
+        return await self._request("PUT", path, cast_to=cast_to, options=options, **kwargs)
 
     async def patch(
         self,
@@ -785,9 +773,7 @@ class AsyncAPIClient:
         """Make a PATCH request."""
         if body is not None:
             kwargs["json"] = body
-        return await self._request(
-            "PATCH", path, cast_to=cast_to, options=options, **kwargs
-        )
+        return await self._request("PATCH", path, cast_to=cast_to, options=options, **kwargs)
 
     async def delete(
         self,
@@ -798,9 +784,7 @@ class AsyncAPIClient:
         **kwargs: Any,
     ) -> ResponseT:
         """Make a DELETE request."""
-        return await self._request(
-            "DELETE", path, cast_to=cast_to, options=options, **kwargs
-        )
+        return await self._request("DELETE", path, cast_to=cast_to, options=options, **kwargs)
 
     async def aclose(self) -> None:
         """Close the client and clean up resources."""

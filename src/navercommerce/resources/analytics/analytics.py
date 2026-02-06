@@ -29,16 +29,14 @@ class MarketingAnalytics(SyncAPIResource):
             "endDate": end_date,
         }
         params.update(kwargs)
-        
+
         return self._get(
             f"/v1/bizdata-stats/channels/{channel_no}/marketing/all/daily",
             cast_to=dict,  # type: ignore
             options={"params": params},
         )
 
-    def get_all_detail(
-        self, *, channel_no: str, start_date: str, end_date: str, **kwargs: Any
-    ) -> Dict[str, Any]:
+    def get_all_detail(self, *, channel_no: str, start_date: str, end_date: str, **kwargs: Any) -> Dict[str, Any]:
         """Get all channel detailed marketing stats."""
         params: Dict[str, Any] = {"startDate": start_date, "endDate": end_date}
         params.update(kwargs)
@@ -48,9 +46,7 @@ class MarketingAnalytics(SyncAPIResource):
             options={"params": params},
         )
 
-    def get_custom_detail(
-        self, *, channel_no: str, start_date: str, end_date: str, **kwargs: Any
-    ) -> Dict[str, Any]:
+    def get_custom_detail(self, *, channel_no: str, start_date: str, end_date: str, **kwargs: Any) -> Dict[str, Any]:
         """Get custom channel detailed stats."""
         params: Dict[str, Any] = {"startDate": start_date, "endDate": end_date}
         params.update(kwargs)
@@ -60,9 +56,7 @@ class MarketingAnalytics(SyncAPIResource):
             options={"params": params},
         )
 
-    def get_custom_simple(
-        self, *, channel_no: str, start_date: str, end_date: str, **kwargs: Any
-    ) -> Dict[str, Any]:
+    def get_custom_simple(self, *, channel_no: str, start_date: str, end_date: str, **kwargs: Any) -> Dict[str, Any]:
         """Get custom channel simple stats."""
         params: Dict[str, Any] = {"startDate": start_date, "endDate": end_date}
         params.update(kwargs)
@@ -72,9 +66,7 @@ class MarketingAnalytics(SyncAPIResource):
             options={"params": params},
         )
 
-    def get_hourly_detail(
-        self, *, channel_no: str, start_date: str, end_date: str, **kwargs: Any
-    ) -> Dict[str, Any]:
+    def get_hourly_detail(self, *, channel_no: str, start_date: str, end_date: str, **kwargs: Any) -> Dict[str, Any]:
         """Get hourly detailed marketing stats."""
         params: Dict[str, Any] = {"startDate": start_date, "endDate": end_date}
         params.update(kwargs)
@@ -84,9 +76,7 @@ class MarketingAnalytics(SyncAPIResource):
             options={"params": params},
         )
 
-    def get_hourly_simple(
-        self, *, channel_no: str, start_date: str, end_date: str, **kwargs: Any
-    ) -> Dict[str, Any]:
+    def get_hourly_simple(self, *, channel_no: str, start_date: str, end_date: str, **kwargs: Any) -> Dict[str, Any]:
         """Get hourly simple marketing stats."""
         params: Dict[str, Any] = {"startDate": start_date, "endDate": end_date}
         params.update(kwargs)
@@ -96,9 +86,7 @@ class MarketingAnalytics(SyncAPIResource):
             options={"params": params},
         )
 
-    def get_search_keyword(
-        self, *, channel_no: str, start_date: str, end_date: str, **kwargs: Any
-    ) -> Dict[str, Any]:
+    def get_search_keyword(self, *, channel_no: str, start_date: str, end_date: str, **kwargs: Any) -> Dict[str, Any]:
         """Get search keyword marketing stats."""
         params: Dict[str, Any] = {"startDate": start_date, "endDate": end_date}
         params.update(kwargs)
@@ -108,9 +96,7 @@ class MarketingAnalytics(SyncAPIResource):
             options={"params": params},
         )
 
-    def get_search_detail(
-        self, *, channel_no: str, start_date: str, end_date: str, **kwargs: Any
-    ) -> Dict[str, Any]:
+    def get_search_detail(self, *, channel_no: str, start_date: str, end_date: str, **kwargs: Any) -> Dict[str, Any]:
         """Get search detailed marketing stats."""
         params: Dict[str, Any] = {"startDate": start_date, "endDate": end_date}
         params.update(kwargs)
@@ -120,9 +106,7 @@ class MarketingAnalytics(SyncAPIResource):
             options={"params": params},
         )
 
-    def get_website_daily(
-        self, *, channel_no: str, start_date: str, end_date: str, **kwargs: Any
-    ) -> Dict[str, Any]:
+    def get_website_daily(self, *, channel_no: str, start_date: str, end_date: str, **kwargs: Any) -> Dict[str, Any]:
         """Get website daily marketing stats."""
         params: Dict[str, Any] = {"startDate": start_date, "endDate": end_date}
         params.update(kwargs)
@@ -132,9 +116,7 @@ class MarketingAnalytics(SyncAPIResource):
             options={"params": params},
         )
 
-    def get_website_detail(
-        self, *, channel_no: str, start_date: str, end_date: str, **kwargs: Any
-    ) -> Dict[str, Any]:
+    def get_website_detail(self, *, channel_no: str, start_date: str, end_date: str, **kwargs: Any) -> Dict[str, Any]:
         """Get website detailed marketing stats."""
         params: Dict[str, Any] = {"startDate": start_date, "endDate": end_date}
         params.update(kwargs)
@@ -148,9 +130,7 @@ class MarketingAnalytics(SyncAPIResource):
 class SalesAnalytics(SyncAPIResource):
     """Sales analytics sub-resource for sales performance data."""
 
-    def get_realtime_daily(
-        self, *, channel_no: str, **kwargs: Any
-    ) -> Dict[str, Any]:
+    def get_realtime_daily(self, *, channel_no: str, **kwargs: Any) -> Dict[str, Any]:
         """Get realtime daily sales stats."""
         return self._get(
             f"/v1/bizdata-stats/channels/{channel_no}/realtime/daily",
@@ -158,9 +138,7 @@ class SalesAnalytics(SyncAPIResource):
             options={"params": kwargs},
         )
 
-    def get_delivery_detail(
-        self, *, channel_no: str, start_date: str, end_date: str, **kwargs: Any
-    ) -> Dict[str, Any]:
+    def get_delivery_detail(self, *, channel_no: str, start_date: str, end_date: str, **kwargs: Any) -> Dict[str, Any]:
         """Get delivery detailed sales stats."""
         params: Dict[str, Any] = {"startDate": start_date, "endDate": end_date}
         params.update(kwargs)
@@ -170,9 +148,7 @@ class SalesAnalytics(SyncAPIResource):
             options={"params": params},
         )
 
-    def get_product_detail(
-        self, *, channel_no: str, start_date: str, end_date: str, **kwargs: Any
-    ) -> Dict[str, Any]:
+    def get_product_detail(self, *, channel_no: str, start_date: str, end_date: str, **kwargs: Any) -> Dict[str, Any]:
         """Get product detailed sales stats."""
         params: Dict[str, Any] = {"startDate": start_date, "endDate": end_date}
         params.update(kwargs)
@@ -182,9 +158,7 @@ class SalesAnalytics(SyncAPIResource):
             options={"params": params},
         )
 
-    def get_hourly_detail(
-        self, *, channel_no: str, start_date: str, end_date: str, **kwargs: Any
-    ) -> Dict[str, Any]:
+    def get_hourly_detail(self, *, channel_no: str, start_date: str, end_date: str, **kwargs: Any) -> Dict[str, Any]:
         """Get hourly detailed sales stats."""
         params: Dict[str, Any] = {"startDate": start_date, "endDate": end_date}
         params.update(kwargs)
@@ -243,9 +217,7 @@ class Analytics(SyncAPIResource):
 class AsyncMarketingAnalytics(AsyncAPIResource):
     """Async marketing analytics sub-resource."""
 
-    async def get_all_daily(
-        self, *, channel_no: str, start_date: str, end_date: str, **kwargs: Any
-    ) -> Dict[str, Any]:
+    async def get_all_daily(self, *, channel_no: str, start_date: str, end_date: str, **kwargs: Any) -> Dict[str, Any]:
         """Get all channel daily marketing stats."""
         params: Dict[str, Any] = {"startDate": start_date, "endDate": end_date}
         params.update(kwargs)
@@ -255,9 +227,7 @@ class AsyncMarketingAnalytics(AsyncAPIResource):
             options={"params": params},
         )
 
-    async def get_all_detail(
-        self, *, channel_no: str, start_date: str, end_date: str, **kwargs: Any
-    ) -> Dict[str, Any]:
+    async def get_all_detail(self, *, channel_no: str, start_date: str, end_date: str, **kwargs: Any) -> Dict[str, Any]:
         """Get all channel detailed marketing stats."""
         params: Dict[str, Any] = {"startDate": start_date, "endDate": end_date}
         params.update(kwargs)
@@ -367,9 +337,7 @@ class AsyncMarketingAnalytics(AsyncAPIResource):
 class AsyncSalesAnalytics(AsyncAPIResource):
     """Async sales analytics sub-resource."""
 
-    async def get_realtime_daily(
-        self, *, channel_no: str, **kwargs: Any
-    ) -> Dict[str, Any]:
+    async def get_realtime_daily(self, *, channel_no: str, **kwargs: Any) -> Dict[str, Any]:
         """Get realtime daily sales stats."""
         return await self._get(
             f"/v1/bizdata-stats/channels/{channel_no}/realtime/daily",

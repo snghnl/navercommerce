@@ -70,9 +70,7 @@ class NaverCommerce(SyncAPIClient):
 
         # Validate credentials
         if not client_id:
-            raise ValueError(
-                f"Client ID is required. Pass client_id or set {ENV_CLIENT_ID} environment variable."
-            )
+            raise ValueError(f"Client ID is required. Pass client_id or set {ENV_CLIENT_ID} environment variable.")
         if not client_secret:
             raise ValueError(
                 f"Client secret is required. Pass client_secret or set {ENV_CLIENT_SECRET} environment variable."
@@ -235,9 +233,7 @@ class AsyncNaverCommerce(AsyncAPIClient):
 
         # Validate credentials
         if not client_id:
-            raise ValueError(
-                f"Client ID is required. Pass client_id or set {ENV_CLIENT_ID} environment variable."
-            )
+            raise ValueError(f"Client ID is required. Pass client_id or set {ENV_CLIENT_ID} environment variable.")
         if not client_secret:
             raise ValueError(
                 f"Client secret is required. Pass client_secret or set {ENV_CLIENT_SECRET} environment variable."

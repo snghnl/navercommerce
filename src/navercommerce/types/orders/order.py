@@ -106,9 +106,7 @@ class Order(BaseModel):
     orderer: Optional[OrdererInfo] = Field(None, alias="orderer")
     receiver: Optional[ReceiverInfo] = Field(None, alias="shippingAddress")
 
-    product_order_list: list[OrderProductInfo] = Field(
-        default_factory=list, alias="productOrderList"
-    )
+    product_order_list: list[OrderProductInfo] = Field(default_factory=list, alias="productOrderList")
 
     total_product_price: Optional[int] = Field(None, alias="totalProductPrice")
     total_delivery_fee: Optional[int] = Field(None, alias="totalDeliveryFee")

@@ -47,9 +47,7 @@ class SyncAPIResource:
         **kwargs: Any,
     ) -> ResponseT:
         """Make a POST request."""
-        return self._client.post(
-            path, cast_to=cast_to, body=body, files=files, options=options, **kwargs
-        )
+        return self._client.post(path, cast_to=cast_to, body=body, files=files, options=options, **kwargs)
 
     def _put(
         self,
@@ -61,9 +59,7 @@ class SyncAPIResource:
         **kwargs: Any,
     ) -> ResponseT:
         """Make a PUT request."""
-        return self._client.put(
-            path, cast_to=cast_to, body=body, options=options, **kwargs
-        )
+        return self._client.put(path, cast_to=cast_to, body=body, options=options, **kwargs)
 
     def _patch(
         self,
@@ -75,9 +71,7 @@ class SyncAPIResource:
         **kwargs: Any,
     ) -> ResponseT:
         """Make a PATCH request."""
-        return self._client.patch(
-            path, cast_to=cast_to, body=body, options=options, **kwargs
-        )
+        return self._client.patch(path, cast_to=cast_to, body=body, options=options, **kwargs)
 
     def _delete(
         self,
@@ -117,9 +111,7 @@ class AsyncAPIResource:
         **kwargs: Any,
     ) -> ResponseT:
         """Make a GET request."""
-        return await self._client.get(
-            path, cast_to=cast_to, options=options, **kwargs
-        )
+        return await self._client.get(path, cast_to=cast_to, options=options, **kwargs)
 
     async def _post(
         self,
@@ -132,9 +124,7 @@ class AsyncAPIResource:
         **kwargs: Any,
     ) -> ResponseT:
         """Make a POST request."""
-        return await self._client.post(
-            path, cast_to=cast_to, body=body, files=files, options=options, **kwargs
-        )
+        return await self._client.post(path, cast_to=cast_to, body=body, files=files, options=options, **kwargs)
 
     async def _put(
         self,
@@ -146,9 +136,7 @@ class AsyncAPIResource:
         **kwargs: Any,
     ) -> ResponseT:
         """Make a PUT request."""
-        return await self._client.put(
-            path, cast_to=cast_to, body=body, options=options, **kwargs
-        )
+        return await self._client.put(path, cast_to=cast_to, body=body, options=options, **kwargs)
 
     async def _patch(
         self,
@@ -160,9 +148,7 @@ class AsyncAPIResource:
         **kwargs: Any,
     ) -> ResponseT:
         """Make a PATCH request."""
-        return await self._client.patch(
-            path, cast_to=cast_to, body=body, options=options, **kwargs
-        )
+        return await self._client.patch(path, cast_to=cast_to, body=body, options=options, **kwargs)
 
     async def _delete(
         self,
@@ -173,9 +159,7 @@ class AsyncAPIResource:
         **kwargs: Any,
     ) -> ResponseT:
         """Make a DELETE request."""
-        return await self._client.delete(
-            path, cast_to=cast_to, options=options, **kwargs
-        )
+        return await self._client.delete(path, cast_to=cast_to, options=options, **kwargs)
 
     async def _sleep(self, seconds: float) -> None:
         """Sleep for the specified number of seconds."""

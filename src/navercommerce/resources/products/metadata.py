@@ -506,9 +506,7 @@ class AsyncProductsMetadata(AsyncAPIResource):
             options={"params": kwargs},
         )
 
-    async def list_attributes(
-        self, *, category_id: str, **kwargs: Any
-    ) -> List[Dict[str, Any]]:
+    async def list_attributes(self, *, category_id: str, **kwargs: Any) -> List[Dict[str, Any]]:
         """Get category attributes."""
         params: Dict[str, Any] = {"categoryId": category_id}
         params.update(kwargs)
@@ -518,9 +516,7 @@ class AsyncProductsMetadata(AsyncAPIResource):
             options={"params": params},
         )
 
-    async def list_attribute_values(
-        self, *, attribute_id: str, **kwargs: Any
-    ) -> List[Dict[str, Any]]:
+    async def list_attribute_values(self, *, attribute_id: str, **kwargs: Any) -> List[Dict[str, Any]]:
         """Get attribute values."""
         params: Dict[str, Any] = {"attributeId": attribute_id}
         params.update(kwargs)
@@ -530,9 +526,7 @@ class AsyncProductsMetadata(AsyncAPIResource):
             options={"params": params},
         )
 
-    async def list_attribute_value_units(
-        self, *, attribute_value_id: str, **kwargs: Any
-    ) -> List[Dict[str, Any]]:
+    async def list_attribute_value_units(self, *, attribute_value_id: str, **kwargs: Any) -> List[Dict[str, Any]]:
         """Get attribute value units."""
         params: Dict[str, Any] = {"attributeValueId": attribute_value_id}
         params.update(kwargs)
@@ -550,9 +544,7 @@ class AsyncProductsMetadata(AsyncAPIResource):
             options={"params": kwargs},
         )
 
-    async def query_origin_areas(
-        self, *, code: str, **kwargs: Any
-    ) -> List[Dict[str, Any]]:
+    async def query_origin_areas(self, *, code: str, **kwargs: Any) -> List[Dict[str, Any]]:
         """Query origin areas by code."""
         params: Dict[str, Any] = {"code": code}
         params.update(kwargs)
@@ -562,9 +554,7 @@ class AsyncProductsMetadata(AsyncAPIResource):
             options={"params": params},
         )
 
-    async def list_sub_origin_areas(
-        self, *, parent_code: str, **kwargs: Any
-    ) -> List[Dict[str, Any]]:
+    async def list_sub_origin_areas(self, *, parent_code: str, **kwargs: Any) -> List[Dict[str, Any]]:
         """Get sub origin areas."""
         params: Dict[str, Any] = {"parentCode": parent_code}
         params.update(kwargs)
@@ -582,9 +572,7 @@ class AsyncProductsMetadata(AsyncAPIResource):
             options={"params": kwargs},
         )
 
-    async def list_models(
-        self, *, category_id: str | NotGiven = not_given, **kwargs: Any
-    ) -> List[Dict[str, Any]]:
+    async def list_models(self, *, category_id: str | NotGiven = not_given, **kwargs: Any) -> List[Dict[str, Any]]:
         """List catalog models."""
         params: Dict[str, Any] = {}
         if not isinstance(category_id, NotGiven):
@@ -628,9 +616,7 @@ class AsyncProductsMetadata(AsyncAPIResource):
             options={"params": kwargs},
         )
 
-    async def create_fashion_model(
-        self, *, name: str, **kwargs: Any
-    ) -> Dict[str, Any]:
+    async def create_fashion_model(self, *, name: str, **kwargs: Any) -> Dict[str, Any]:
         """Create a fashion model."""
         body: Dict[str, Any] = {"name": name}
         body.update(kwargs)
@@ -654,9 +640,7 @@ class AsyncProductsMetadata(AsyncAPIResource):
             body=body,
         )
 
-    async def delete_fashion_model(
-        self, model_id: str, **kwargs: Any
-    ) -> Dict[str, Any]:
+    async def delete_fashion_model(self, model_id: str, **kwargs: Any) -> Dict[str, Any]:
         """Delete a fashion model."""
         return await self._delete(
             f"/v1/product-fashion-models/{model_id}",

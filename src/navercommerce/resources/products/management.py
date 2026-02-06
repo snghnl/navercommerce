@@ -248,9 +248,7 @@ class ProductsManagement(SyncAPIResource):
 class AsyncProductsManagement(AsyncAPIResource):
     """Async products management sub-resource."""
 
-    async def bulk_update(
-        self, *, products: List[Dict[str, Any]], **kwargs: Any
-    ) -> Dict[str, Any]:
+    async def bulk_update(self, *, products: List[Dict[str, Any]], **kwargs: Any) -> Dict[str, Any]:
         """Bulk update products."""
         body: Dict[str, Any] = {"products": products}
         body.update(kwargs)
@@ -260,9 +258,7 @@ class AsyncProductsManagement(AsyncAPIResource):
             body=body,
         )
 
-    async def change_status(
-        self, *, product_id: str, status: str, **kwargs: Any
-    ) -> Dict[str, Any]:
+    async def change_status(self, *, product_id: str, status: str, **kwargs: Any) -> Dict[str, Any]:
         """Change product status."""
         body: Dict[str, Any] = {"status": status}
         body.update(kwargs)
@@ -272,9 +268,7 @@ class AsyncProductsManagement(AsyncAPIResource):
             body=body,
         )
 
-    async def update_option_stock(
-        self, *, product_id: str, stock_quantity: int, **kwargs: Any
-    ) -> Dict[str, Any]:
+    async def update_option_stock(self, *, product_id: str, stock_quantity: int, **kwargs: Any) -> Dict[str, Any]:
         """Update product option stock."""
         body: Dict[str, Any] = {"stockQuantity": stock_quantity}
         body.update(kwargs)
@@ -284,9 +278,7 @@ class AsyncProductsManagement(AsyncAPIResource):
             body=body,
         )
 
-    async def multi_update(
-        self, *, updates: List[Dict[str, Any]], **kwargs: Any
-    ) -> Dict[str, Any]:
+    async def multi_update(self, *, updates: List[Dict[str, Any]], **kwargs: Any) -> Dict[str, Any]:
         """Multi-product update."""
         body: Dict[str, Any] = {"updates": updates}
         body.update(kwargs)

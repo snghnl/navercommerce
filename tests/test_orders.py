@@ -13,9 +13,9 @@ def test_orders_list(client, respx_mock, mock_oauth_token, mock_order_list_respo
     )
 
     # Mock list orders endpoint
-    respx_mock.post(
-        "https://test.api.commerce.naver.com/external/v1/orders/product-orders/list-query"
-    ).mock(return_value=Response(200, json=mock_order_list_response))
+    respx_mock.post("https://test.api.commerce.naver.com/external/v1/orders/product-orders/list-query").mock(
+        return_value=Response(200, json=mock_order_list_response)
+    )
 
     # Call the method
     orders = client.orders.list(start_date="2024-01-01", end_date="2024-01-31")
@@ -55,9 +55,9 @@ def test_orders_retrieve(client, respx_mock, mock_oauth_token):
         },
     }
 
-    respx_mock.get(
-        "https://test.api.commerce.naver.com/external/v1/orders/product-orders/2024010112345678"
-    ).mock(return_value=Response(200, json=order_response))
+    respx_mock.get("https://test.api.commerce.naver.com/external/v1/orders/product-orders/2024010112345678").mock(
+        return_value=Response(200, json=order_response)
+    )
 
     # Call the method
     order = client.orders.retrieve("2024010112345678")
@@ -153,9 +153,9 @@ async def test_async_orders_list(async_client, respx_mock, mock_oauth_token, moc
     )
 
     # Mock list orders endpoint
-    respx_mock.post(
-        "https://test.api.commerce.naver.com/external/v1/orders/product-orders/list-query"
-    ).mock(return_value=Response(200, json=mock_order_list_response))
+    respx_mock.post("https://test.api.commerce.naver.com/external/v1/orders/product-orders/list-query").mock(
+        return_value=Response(200, json=mock_order_list_response)
+    )
 
     # Call the method
     orders = await async_client.orders.list(start_date="2024-01-01", end_date="2024-01-31")

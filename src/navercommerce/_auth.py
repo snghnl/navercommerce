@@ -315,6 +315,7 @@ class AsyncOAuth2TokenManager:
             if self._owns_http_client and self._http_client is not None:
                 # Can't await in __del__, so we just close synchronously
                 import asyncio
+
                 try:
                     loop = asyncio.get_event_loop()
                     if loop.is_running():

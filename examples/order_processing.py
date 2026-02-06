@@ -35,10 +35,7 @@ def main():
     # 1. List orders
     print(f"1. Listing orders from {start_date_str} to {end_date_str}...")
     try:
-        orders = client.orders.list(
-            start_date=start_date_str,
-            end_date=end_date_str
-        )
+        orders = client.orders.list(start_date=start_date_str, end_date=end_date_str)
         print(f"   Found {len(orders)} orders")
 
         # Show first 5 orders
@@ -122,13 +119,11 @@ def main():
     print("6. Filtering orders by status...")
     print("   (This shows how to use the order status enum)")
     try:
-        all_orders = client.orders.list(
-            start_date=start_date_str,
-            end_date=end_date_str
-        )
+        all_orders = client.orders.list(start_date=start_date_str, end_date=end_date_str)
 
         # Count orders by status
         from collections import Counter
+
         status_counts = Counter(order.order_status.value for order in all_orders)
 
         print("   Order status breakdown:")

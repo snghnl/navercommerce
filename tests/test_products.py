@@ -90,9 +90,9 @@ def test_products_delete(client, respx_mock, mock_oauth_token):
     )
 
     # Mock delete endpoint (returns empty response)
-    respx_mock.delete(
-        "https://test.api.commerce.naver.com/external/v2/products/origin-products/prod123"
-    ).mock(return_value=Response(204))
+    respx_mock.delete("https://test.api.commerce.naver.com/external/v2/products/origin-products/prod123").mock(
+        return_value=Response(204)
+    )
 
     # Call the method (should not raise)
     result = client.products.delete("prod123")

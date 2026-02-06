@@ -103,11 +103,7 @@ class APIResponse(Generic[ResponseT]):
         return self._response.json()
 
     def __repr__(self) -> str:
-        return (
-            f"APIResponse(status_code={self.status_code}, "
-            f"url={self.url!r}, "
-            f"cast_to={self._cast_to.__name__})"
-        )
+        return f"APIResponse(status_code={self.status_code}, url={self.url!r}, cast_to={self._cast_to.__name__})"
 
 
 class AsyncAPIResponse(Generic[ResponseT]):
@@ -195,8 +191,4 @@ class AsyncAPIResponse(Generic[ResponseT]):
         return self._response.json()
 
     def __repr__(self) -> str:
-        return (
-            f"AsyncAPIResponse(status_code={self.status_code}, "
-            f"url={self.url!r}, "
-            f"cast_to={self._cast_to.__name__})"
-        )
+        return f"AsyncAPIResponse(status_code={self.status_code}, url={self.url!r}, cast_to={self._cast_to.__name__})"
