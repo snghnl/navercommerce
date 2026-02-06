@@ -5,10 +5,9 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Dict, List
 
 from ..._resource import AsyncAPIResource, SyncAPIResource
-from ..._types import NotGiven, not_given
 
 if TYPE_CHECKING:
-    from ..._client import AsyncNaverCommerce, NaverCommerce
+    pass
 
 
 class ProductsManagement(SyncAPIResource):

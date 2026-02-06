@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, Any, Dict, List
 from ..._resource import AsyncAPIResource, SyncAPIResource
 
 if TYPE_CHECKING:
-    from ..._client import AsyncNaverCommerce, NaverCommerce
+    pass
 
 
 class ProductsNotices(SyncAPIResource):

@@ -8,7 +8,7 @@ from ..._resource import AsyncAPIResource, SyncAPIResource
 from ..._types import NotGiven, not_given
 
 if TYPE_CHECKING:
-    from ..._client import AsyncNaverCommerce, NaverCommerce
+    pass
 
 
 class ProductsMetadata(SyncAPIResource):

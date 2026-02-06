@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from .qna import QnaResponse, QnaTemplateResponse
 from .notice import NoticeResponse
+from .qna import QnaResponse, QnaTemplateResponse
 
 __all__ = ["QnaResponse", "QnaTemplateResponse", "NoticeResponse"]

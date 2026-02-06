@@ -1,7 +1,6 @@
 """Tests for the Products resource."""
 
 import pytest
-import respx
 from httpx import Response
 
 

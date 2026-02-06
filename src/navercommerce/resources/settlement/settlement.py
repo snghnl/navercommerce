@@ -9,7 +9,7 @@ from ..._types import NotGiven, not_given
 from ...types.settlement import SettlementResponse
 
 if TYPE_CHECKING:
-    from ..._client import AsyncNaverCommerce, NaverCommerce
+    pass
 
 
 class Settlement(SyncAPIResource):

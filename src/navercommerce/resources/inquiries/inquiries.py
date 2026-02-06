@@ -6,11 +6,11 @@ from functools import cached_property
 from typing import TYPE_CHECKING
 
 from ..._resource import AsyncAPIResource, SyncAPIResource
-from .qnas import AsyncQnas, Qnas
 from .notices import AsyncNotices, Notices
+from .qnas import AsyncQnas, Qnas
 
 if TYPE_CHECKING:
-    from ..._client import AsyncNaverCommerce, NaverCommerce
+    pass
 
 
 class Inquiries(SyncAPIResource):

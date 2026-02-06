@@ -8,7 +8,7 @@ from ..._resource import AsyncAPIResource, SyncAPIResource
 from ...types.seller import Account, Address, Channel
 
 if TYPE_CHECKING:
-    from ..._client import AsyncNaverCommerce, NaverCommerce
+    pass
 
 
 class Seller(SyncAPIResource):

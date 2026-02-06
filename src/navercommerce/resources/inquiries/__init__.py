@@ -1,8 +1,8 @@
 """Inquiries resource for the Naver Commerce SDK."""
 
 from .inquiries import AsyncInquiries, Inquiries
-from .qnas import AsyncQnas, Qnas
 from .notices import AsyncNotices, Notices
+from .qnas import AsyncQnas, Qnas
 
 __all__ = [
     "Inquiries",

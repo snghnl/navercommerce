@@ -1,7 +1,6 @@
 """Tests for the Seller resource."""
 
 import pytest
-import respx
 from httpx import Response
 
 

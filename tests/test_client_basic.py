@@ -3,7 +3,6 @@
 import pytest
 
 from navercommerce import AsyncNaverCommerce, NaverCommerce
-from navercommerce._exceptions import NaverCommerceError
 
 
 def test_import():

@@ -8,7 +8,6 @@ from ..._resource import AsyncAPIResource, SyncAPIResource
 from ...types.products import ProductImage
 
 if TYPE_CHECKING:
-    from ..._client import AsyncNaverCommerce, NaverCommerce
     from ..._types import FileTypes
 
 

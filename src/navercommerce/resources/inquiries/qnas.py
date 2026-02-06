@@ -9,7 +9,7 @@ from ..._types import NotGiven, not_given
 from ...types.inquiries import QnaResponse, QnaTemplateResponse
 
 if TYPE_CHECKING:
-    from ..._client import AsyncNaverCommerce, NaverCommerce
+    pass
 
 
 class Qnas(SyncAPIResource):

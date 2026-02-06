@@ -6,10 +6,10 @@ from typing import TYPE_CHECKING, Any, Dict
 
 from ..._resource import AsyncAPIResource, SyncAPIResource
 from ..._types import NotGiven, not_given
-from ...types.inquiries import NoticeResponse, NoticeItem
+from ...types.inquiries import NoticeItem, NoticeResponse
 
 if TYPE_CHECKING:
-    from ..._client import AsyncNaverCommerce, NaverCommerce
+    pass
 
 
 class Notices(SyncAPIResource):

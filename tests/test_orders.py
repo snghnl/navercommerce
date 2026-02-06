@@ -1,7 +1,6 @@
 """Tests for the Orders resource."""
 
 import pytest
-import respx
 from httpx import Response
 
 

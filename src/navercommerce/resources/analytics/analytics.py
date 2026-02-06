@@ -3,13 +3,12 @@
 from __future__ import annotations
 
 from functools import cached_property
-from typing import TYPE_CHECKING, Any, Dict, List
+from typing import TYPE_CHECKING, Any, Dict
 
 from ..._resource import AsyncAPIResource, SyncAPIResource
-from ..._types import NotGiven, not_given
 
 if TYPE_CHECKING:
-    from ..._client import AsyncNaverCommerce, NaverCommerce
+    pass
 
 
 class MarketingAnalytics(SyncAPIResource):
