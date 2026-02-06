@@ -9,6 +9,8 @@ from typing import (
     Any,
     TypeVar,
     cast,
+    get_args,
+    get_origin,
 )
 
 import httpx
@@ -253,7 +255,9 @@ class SyncAPIClient:
             kwargs["timeout"] = timeout
 
         # Prepare request with auth
-        kwargs = self._prepare_request(headers=kwargs.get("headers"), **kwargs)
+        # Extract headers from kwargs to avoid duplicate keyword argument
+        headers = kwargs.pop("headers", None)
+        kwargs = self._prepare_request(headers=headers, **kwargs)
 
         for attempt in range(max_retries + 1):
             try:
@@ -266,7 +270,8 @@ class SyncAPIClient:
                         if response.status_code == 401:
                             self._token_manager.clear_token()
                             # Re-prepare request with new token
-                            kwargs = self._prepare_request(headers=kwargs.get("headers"), **kwargs)
+                            headers = kwargs.pop("headers", None)
+                            kwargs = self._prepare_request(headers=headers, **kwargs)
 
                         # Wait before retry
                         time.sleep(self._calculate_retry_delay(attempt))
@@ -321,6 +326,14 @@ class SyncAPIClient:
                 return cast(ResponseT, None)
             raise APIError("Expected response body but got empty response")
 
+        # Handle string responses before JSON parsing
+        if cast_to is str:
+            return cast(ResponseT, response.text)
+
+        # Handle None type
+        if cast_to is type(None):
+            return cast(ResponseT, None)
+
         # Parse JSON response
         data = response.json()
 
@@ -334,15 +347,34 @@ class SyncAPIClient:
             return cast(ResponseT, data)
         elif cast_to is list:
             return cast(ResponseT, data)
-        elif cast_to is str:
-            return cast(ResponseT, response.text)
-        elif cast_to is type(None):
-            return cast(ResponseT, None)
-        elif issubclass(cast_to, BaseModel):
-            return cast(ResponseT, cast_to.model_validate(data))
         else:
-            # For list[Model] and other generic types, just return the data
-            # The type checking is handled by the caller
+            # Check if it's a generic type like list[Model]
+            origin = get_origin(cast_to)
+            if origin is list:
+                # Handle list[Model] types
+                args = get_args(cast_to)
+                if args and len(args) > 0:
+                    item_type = args[0]
+                    # Check if the item type is a BaseModel
+                    try:
+                        if issubclass(item_type, BaseModel):
+                            # Parse each item in the list as a model
+                            if isinstance(data, list):
+                                return cast(ResponseT, [item_type.model_validate(item) for item in data])
+                    except TypeError:
+                        pass
+                # If not a model list or parsing failed, just return the data
+                return cast(ResponseT, data)
+
+            # Check if it's a BaseModel subclass (must be a class first)
+            try:
+                if issubclass(cast_to, BaseModel):
+                    return cast(ResponseT, cast_to.model_validate(data))
+            except TypeError:
+                # cast_to is not a class, just return the data
+                pass
+
+            # For other generic types, just return the data
             return cast(ResponseT, data)
 
     def get(
@@ -627,7 +659,9 @@ class AsyncAPIClient:
             kwargs["timeout"] = timeout
 
         # Prepare request with auth
-        kwargs = await self._prepare_request(headers=kwargs.get("headers"), **kwargs)
+        # Extract headers from kwargs to avoid duplicate keyword argument
+        headers = kwargs.pop("headers", None)
+        kwargs = await self._prepare_request(headers=headers, **kwargs)
 
         for attempt in range(max_retries + 1):
             try:
@@ -640,7 +674,8 @@ class AsyncAPIClient:
                         if response.status_code == 401:
                             self._token_manager.clear_token()
                             # Re-prepare request with new token
-                            kwargs = await self._prepare_request(headers=kwargs.get("headers"), **kwargs)
+                            headers = kwargs.pop("headers", None)
+                            kwargs = await self._prepare_request(headers=headers, **kwargs)
 
                         # Wait before retry
                         await asyncio.sleep(self._calculate_retry_delay(attempt))
@@ -695,6 +730,14 @@ class AsyncAPIClient:
                 return cast(ResponseT, None)
             raise APIError("Expected response body but got empty response")
 
+        # Handle string responses before JSON parsing
+        if cast_to is str:
+            return cast(ResponseT, response.text)
+
+        # Handle None type
+        if cast_to is type(None):
+            return cast(ResponseT, None)
+
         # Parse JSON response
         data = response.json()
 
@@ -708,15 +751,34 @@ class AsyncAPIClient:
             return cast(ResponseT, data)
         elif cast_to is list:
             return cast(ResponseT, data)
-        elif cast_to is str:
-            return cast(ResponseT, response.text)
-        elif cast_to is type(None):
-            return cast(ResponseT, None)
-        elif issubclass(cast_to, BaseModel):
-            return cast(ResponseT, cast_to.model_validate(data))
         else:
-            # For list[Model] and other generic types, just return the data
-            # The type checking is handled by the caller
+            # Check if it's a generic type like list[Model]
+            origin = get_origin(cast_to)
+            if origin is list:
+                # Handle list[Model] types
+                args = get_args(cast_to)
+                if args and len(args) > 0:
+                    item_type = args[0]
+                    # Check if the item type is a BaseModel
+                    try:
+                        if issubclass(item_type, BaseModel):
+                            # Parse each item in the list as a model
+                            if isinstance(data, list):
+                                return cast(ResponseT, [item_type.model_validate(item) for item in data])
+                    except TypeError:
+                        pass
+                # If not a model list or parsing failed, just return the data
+                return cast(ResponseT, data)
+
+            # Check if it's a BaseModel subclass (must be a class first)
+            try:
+                if issubclass(cast_to, BaseModel):
+                    return cast(ResponseT, cast_to.model_validate(data))
+            except TypeError:
+                # cast_to is not a class, just return the data
+                pass
+
+            # For other generic types, just return the data
             return cast(ResponseT, data)
 
     async def get(

@@ -11,8 +11,8 @@ def test_orders_list(client, respx_mock, mock_oauth_token, mock_order_list_respo
         return_value=Response(200, json=mock_oauth_token)
     )
 
-    # Mock list orders endpoint
-    respx_mock.post("https://test.api.commerce.naver.com/external/v1/orders/product-orders/list-query").mock(
+    # Mock list orders endpoint (correct endpoint)
+    respx_mock.post("https://test.api.commerce.naver.com/external/v1/pay-order/seller/product-orders/query").mock(
         return_value=Response(200, json=mock_order_list_response)
     )
 
@@ -33,38 +33,34 @@ def test_orders_retrieve(client, respx_mock, mock_oauth_token):
         return_value=Response(200, json=mock_oauth_token)
     )
 
-    # Mock retrieve order response
+    # Mock retrieve order response - retrieve returns OrderProductInfo
     order_response = {
         "code": "SUCCESS",
-        "data": {
-            "orderId": "order123",
-            "orderDate": "2024-01-01T10:00:00",
-            "productOrderList": [
-                {
-                    "productOrderId": "2024010112345678",
-                    "orderId": "order123",
-                    "productId": "prod123",
-                    "productName": "Test Product",
-                    "quantity": 1,
-                    "unitPrice": 29900,
-                    "totalPrice": 29900,
-                    "productOrderStatus": "PAYED",
-                }
-            ],
-        },
+        "data": [
+            {
+                "productOrderId": "2024010112345678",
+                "orderId": "order123",
+                "productId": "prod123",
+                "productName": "Test Product",
+                "quantity": 1,
+                "unitPrice": 29900,
+                "totalPrice": 29900,
+                "productOrderStatus": "PAYED",
+            }
+        ],
     }
 
-    respx_mock.get("https://test.api.commerce.naver.com/external/v1/orders/product-orders/2024010112345678").mock(
+    respx_mock.post("https://test.api.commerce.naver.com/external/v1/pay-order/seller/product-orders/query").mock(
         return_value=Response(200, json=order_response)
     )
 
     # Call the method
     order = client.orders.retrieve("2024010112345678")
 
-    # Assertions
+    # Assertions - order is OrderProductInfo
+    assert order.product_order_id == "2024010112345678"
     assert order.order_id == "order123"
-    assert order.order_date == "2024-01-01T10:00:00"
-    assert len(order.product_order_list) == 1
+    assert order.product_name == "Test Product"
 
 
 def test_orders_confirm(client, respx_mock, mock_oauth_token):
@@ -80,7 +76,7 @@ def test_orders_confirm(client, respx_mock, mock_oauth_token):
         "data": {"successCount": 2, "failedCount": 0},
     }
 
-    respx_mock.post("https://test.api.commerce.naver.com/external/v1/orders/confirm").mock(
+    respx_mock.post("https://test.api.commerce.naver.com/external/v1/pay-order/seller/product-orders/confirm").mock(
         return_value=Response(200, json=confirm_response)
     )
 
@@ -104,7 +100,7 @@ def test_orders_ship(client, respx_mock, mock_oauth_token):
         "data": {"successCount": 1, "failedCount": 0},
     }
 
-    respx_mock.post("https://test.api.commerce.naver.com/external/v1/orders/ship").mock(
+    respx_mock.post("https://test.api.commerce.naver.com/external/v1/pay-order/seller/product-orders/dispatch").mock(
         return_value=Response(200, json=ship_response)
     )
 
@@ -132,7 +128,7 @@ def test_orders_cancel(client, respx_mock, mock_oauth_token):
         "data": {"successCount": 1, "failedCount": 0},
     }
 
-    respx_mock.post("https://test.api.commerce.naver.com/external/v1/orders/cancel").mock(
+    respx_mock.post("https://test.api.commerce.naver.com/external/v1/pay-order/seller/product-orders/order1/claim/cancel/request").mock(
         return_value=Response(200, json=cancel_response)
     )
 
@@ -151,8 +147,8 @@ async def test_async_orders_list(async_client, respx_mock, mock_oauth_token, moc
         return_value=Response(200, json=mock_oauth_token)
     )
 
-    # Mock list orders endpoint
-    respx_mock.post("https://test.api.commerce.naver.com/external/v1/orders/product-orders/list-query").mock(
+    # Mock list orders endpoint (correct endpoint)
+    respx_mock.post("https://test.api.commerce.naver.com/external/v1/pay-order/seller/product-orders/query").mock(
         return_value=Response(200, json=mock_order_list_response)
     )
 
