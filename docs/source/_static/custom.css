@@ -1,0 +1,138 @@
+/* Custom CSS for Naver Commerce SDK Documentation */
+
+/* Naver green brand colors */
+:root {
+    --naver-green: #00C73C;
+    --naver-green-dark: #00A832;
+    --naver-green-light: #00E847;
+}
+
+/* Light mode customizations */
+[data-theme="light"] {
+    --color-brand-primary: var(--naver-green);
+    --color-brand-content: var(--naver-green-dark);
+}
+
+/* Dark mode customizations */
+[data-theme="dark"] {
+    --color-brand-primary: var(--naver-green-light);
+    --color-brand-content: var(--naver-green);
+}
+
+/* Improve code block styling */
+.highlight {
+    border-radius: 4px;
+    margin: 1em 0;
+}
+
+/* Style inline code */
+code.literal {
+    background-color: rgba(0, 199, 60, 0.1);
+    color: var(--naver-green-dark);
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-size: 0.9em;
+}
+
+[data-theme="dark"] code.literal {
+    background-color: rgba(0, 231, 71, 0.1);
+    color: var(--naver-green-light);
+}
+
+/* Style admonitions */
+.admonition {
+    border-left: 4px solid var(--naver-green);
+}
+
+.admonition.tip {
+    border-left-color: var(--naver-green);
+}
+
+.admonition.warning {
+    border-left-color: #ff9800;
+}
+
+.admonition.note {
+    border-left-color: #2196f3;
+}
+
+/* Improve table styling */
+table.docutils {
+    border-collapse: collapse;
+    margin: 1em 0;
+}
+
+table.docutils th {
+    background-color: rgba(0, 199, 60, 0.1);
+    font-weight: 600;
+}
+
+[data-theme="dark"] table.docutils th {
+    background-color: rgba(0, 231, 71, 0.1);
+}
+
+/* Style headings with brand color accent */
+h1, h2, h3 {
+    color: inherit;
+}
+
+h1 {
+    border-bottom: 2px solid var(--naver-green);
+    padding-bottom: 0.3em;
+}
+
+/* Improve sidebar navigation */
+.sidebar-tree .current-page > .toctree-l1 > a {
+    border-left: 3px solid var(--naver-green);
+}
+
+/* Code copy button styling */
+.copybtn {
+    background-color: var(--naver-green);
+    color: white;
+}
+
+.copybtn:hover {
+    background-color: var(--naver-green-dark);
+}
+
+/* Link styling */
+a {
+    color: var(--naver-green-dark);
+}
+
+[data-theme="dark"] a {
+    color: var(--naver-green-light);
+}
+
+a:hover {
+    color: var(--naver-green);
+}
+
+/* Improve search box styling */
+.search-input {
+    border: 2px solid transparent;
+}
+
+.search-input:focus {
+    border-color: var(--naver-green);
+    outline: none;
+}
+
+/* Version badge styling */
+.version-badge {
+    background-color: var(--naver-green);
+    color: white;
+    padding: 0.2em 0.5em;
+    border-radius: 3px;
+    font-size: 0.9em;
+}
+
+/* Improve method/class signature styling */
+.sig-name {
+    color: var(--naver-green-dark);
+}
+
+[data-theme="dark"] .sig-name {
+    color: var(--naver-green-light);
+}
