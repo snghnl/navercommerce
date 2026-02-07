@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from typing import List, Optional
-
 from pydantic import Field
 
 from ..._models import BaseModel
@@ -23,10 +21,10 @@ class SettlementElement(BaseModel):
 class Pagination(BaseModel):
     """Pagination information for settlement queries."""
 
-    page: Optional[int] = None
-    size: Optional[int] = None
-    total_elements: Optional[int] = Field(None, alias="totalElements")
-    total_pages: Optional[int] = Field(None, alias="totalPages")
+    page: int | None = None
+    size: int | None = None
+    total_elements: int | None = Field(None, alias="totalElements")
+    total_pages: int | None = Field(None, alias="totalPages")
 
     model_config = {"extra": "allow"}
 
@@ -38,7 +36,7 @@ class SettlementResponse(BaseModel):
     Contains settlement records and pagination info.
     """
 
-    elements: List[SettlementElement] = Field(default_factory=list)
-    pagination: Optional[Pagination] = None
+    elements: list[SettlementElement] = Field(default_factory=list)
+    pagination: Pagination | None = None
 
     model_config = {"extra": "allow"}

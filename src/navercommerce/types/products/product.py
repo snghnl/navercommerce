@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from enum import Enum
-from typing import Optional
 
 from pydantic import Field
 
@@ -23,25 +22,25 @@ class ProductImage(BaseModel):
     """Product image information."""
 
     url: str
-    image_type: Optional[str] = Field(None, alias="imageType")
-    image_order: Optional[int] = Field(None, alias="imageOrder")
+    image_type: str | None = Field(None, alias="imageType")
+    image_order: int | None = Field(None, alias="imageOrder")
 
 
 class SaleInfo(BaseModel):
     """Product sale information."""
 
     sale_price: int = Field(alias="salePrice")
-    stock_quantity: Optional[int] = Field(None, alias="stockQuantity")
-    sale_start_date: Optional[str] = Field(None, alias="saleStartDate")
-    sale_end_date: Optional[str] = Field(None, alias="saleEndDate")
+    stock_quantity: int | None = Field(None, alias="stockQuantity")
+    sale_start_date: str | None = Field(None, alias="saleStartDate")
+    sale_end_date: str | None = Field(None, alias="saleEndDate")
 
 
 class DeliveryInfo(BaseModel):
     """Product delivery information."""
 
-    delivery_fee: Optional[int] = Field(None, alias="deliveryFee")
-    delivery_method: Optional[str] = Field(None, alias="deliveryMethod")
-    delivery_company: Optional[str] = Field(None, alias="deliveryCompany")
+    delivery_fee: int | None = Field(None, alias="deliveryFee")
+    delivery_method: str | None = Field(None, alias="deliveryMethod")
+    delivery_company: str | None = Field(None, alias="deliveryCompany")
 
 
 class Product(BaseModel):
@@ -58,24 +57,24 @@ class Product(BaseModel):
     sale_price: int = Field(alias="salePrice")
 
     # Optional fields
-    category_id: Optional[str] = Field(None, alias="categoryId")
-    category_name: Optional[str] = Field(None, alias="categoryName")
-    brand_id: Optional[str] = Field(None, alias="brandId")
-    brand_name: Optional[str] = Field(None, alias="brandName")
+    category_id: str | None = Field(None, alias="categoryId")
+    category_name: str | None = Field(None, alias="categoryName")
+    brand_id: str | None = Field(None, alias="brandId")
+    brand_name: str | None = Field(None, alias="brandName")
 
-    stock_quantity: Optional[int] = Field(None, alias="stockQuantity")
+    stock_quantity: int | None = Field(None, alias="stockQuantity")
     images: list[ProductImage] = Field(default_factory=list)
 
-    origin_product_no: Optional[str] = Field(None, alias="originProductNo")
-    origin_area_code: Optional[str] = Field(None, alias="originAreaCode")
+    origin_product_no: str | None = Field(None, alias="originProductNo")
+    origin_area_code: str | None = Field(None, alias="originAreaCode")
 
-    detail_content: Optional[str] = Field(None, alias="detailContent")
+    detail_content: str | None = Field(None, alias="detailContent")
 
-    sale_info: Optional[SaleInfo] = Field(None, alias="saleInfo")
-    delivery_info: Optional[DeliveryInfo] = Field(None, alias="deliveryInfo")
+    sale_info: SaleInfo | None = Field(None, alias="saleInfo")
+    delivery_info: DeliveryInfo | None = Field(None, alias="deliveryInfo")
 
-    created_date: Optional[str] = Field(None, alias="createdDate")
-    updated_date: Optional[str] = Field(None, alias="updatedDate")
+    created_date: str | None = Field(None, alias="createdDate")
+    updated_date: str | None = Field(None, alias="updatedDate")
 
     # Additional fields that may be present in responses
     model_config = {"extra": "allow"}

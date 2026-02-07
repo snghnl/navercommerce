@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from typing import Optional
-
 from pydantic import Field
 
 from ..._models import BaseModel
@@ -18,7 +16,7 @@ class Brand(BaseModel):
 
     id: str
     name: str
-    name_english: Optional[str] = Field(None, alias="nameEnglish")
+    name_english: str | None = Field(None, alias="nameEnglish")
 
 
 class BrandList(BaseModel):

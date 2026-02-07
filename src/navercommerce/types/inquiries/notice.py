@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from typing import List, Optional
-
 from pydantic import Field
 
 from ..._models import BaseModel
@@ -12,12 +10,12 @@ from ..._models import BaseModel
 class NoticeItem(BaseModel):
     """Seller notice item."""
 
-    notice_id: Optional[str] = Field(None, alias="noticeId")
-    notice_type: Optional[str] = Field(None, alias="noticeType")
-    title: Optional[str] = None
-    content: Optional[str] = None
-    created_date: Optional[str] = Field(None, alias="createdDate")
-    modified_date: Optional[str] = Field(None, alias="modifiedDate")
+    notice_id: str | None = Field(None, alias="noticeId")
+    notice_type: str | None = Field(None, alias="noticeType")
+    title: str | None = None
+    content: str | None = None
+    created_date: str | None = Field(None, alias="createdDate")
+    modified_date: str | None = Field(None, alias="modifiedDate")
 
     model_config = {"extra": "allow"}
 
@@ -25,7 +23,7 @@ class NoticeItem(BaseModel):
 class NoticeResponse(BaseModel):
     """Response for notice queries."""
 
-    contents: List[NoticeItem] = Field(default_factory=list)
-    total_count: Optional[int] = Field(None, alias="totalCount")
+    contents: list[NoticeItem] = Field(default_factory=list)
+    total_count: int | None = Field(None, alias="totalCount")
 
     model_config = {"extra": "allow"}

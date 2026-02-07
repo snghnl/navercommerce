@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from typing import Optional
-
 from pydantic import Field
 
 from ..._models import BaseModel
@@ -24,10 +22,10 @@ class Account(BaseModel):
 
     seller_id: str = Field(alias="sellerId")
     seller_name: str = Field(alias="sellerName")
-    tel_no: Optional[str] = Field(None, alias="telNo")
-    email: Optional[str] = None
-    representative_name: Optional[str] = Field(None, alias="representativeName")
-    business_registration_no: Optional[str] = Field(None, alias="businessRegistrationNo")
+    tel_no: str | None = Field(None, alias="telNo")
+    email: str | None = None
+    representative_name: str | None = Field(None, alias="representativeName")
+    business_registration_no: str | None = Field(None, alias="businessRegistrationNo")
 
 
 class Channel(BaseModel):

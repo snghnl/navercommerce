@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from typing import Optional
-
 from pydantic import Field
 
 from ..._models import BaseModel
@@ -28,11 +26,11 @@ class Address(BaseModel):
     address_id: str = Field(alias="addressId")
     name: str
     recipient_name: str = Field(alias="recipientName")
-    tel_no: Optional[str] = Field(None, alias="telNo")
-    mobile_no: Optional[str] = Field(None, alias="mobileNo")
+    tel_no: str | None = Field(None, alias="telNo")
+    mobile_no: str | None = Field(None, alias="mobileNo")
     zip_code: str = Field(alias="zipCode")
     address: str
-    address_detail: Optional[str] = Field(None, alias="addressDetail")
+    address_detail: str | None = Field(None, alias="addressDetail")
     is_default: bool = Field(False, alias="isDefault")
 
 

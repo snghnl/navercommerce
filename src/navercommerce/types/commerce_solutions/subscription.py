@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from typing import List, Optional
-
 from pydantic import Field
 
 from ..._models import BaseModel
@@ -12,10 +10,10 @@ from ..._models import BaseModel
 class SubscriptionInfo(BaseModel):
     """Subscription information."""
 
-    subscription_id: Optional[str] = Field(None, alias="subscriptionId")
-    account_uid: Optional[str] = Field(None, alias="accountUid")
-    status: Optional[str] = None
-    created_date: Optional[str] = Field(None, alias="createdDate")
+    subscription_id: str | None = Field(None, alias="subscriptionId")
+    account_uid: str | None = Field(None, alias="accountUid")
+    status: str | None = None
+    created_date: str | None = Field(None, alias="createdDate")
 
     model_config = {"extra": "allow"}
 
@@ -23,9 +21,9 @@ class SubscriptionInfo(BaseModel):
 class SellerInfo(BaseModel):
     """Seller information from JWT token."""
 
-    seller_id: Optional[str] = Field(None, alias="sellerId")
-    account_uid: Optional[str] = Field(None, alias="accountUid")
-    seller_name: Optional[str] = Field(None, alias="sellerName")
+    seller_id: str | None = Field(None, alias="sellerId")
+    account_uid: str | None = Field(None, alias="accountUid")
+    seller_name: str | None = Field(None, alias="sellerName")
 
     model_config = {"extra": "allow"}
 
@@ -33,10 +31,10 @@ class SellerInfo(BaseModel):
 class Transaction(BaseModel):
     """Commerce solutions transaction."""
 
-    transaction_id: Optional[str] = Field(None, alias="transactionId")
-    transaction_type: Optional[str] = Field(None, alias="transactionType")
-    amount: Optional[int] = None
-    created_date: Optional[str] = Field(None, alias="createdDate")
+    transaction_id: str | None = Field(None, alias="transactionId")
+    transaction_type: str | None = Field(None, alias="transactionType")
+    amount: int | None = None
+    created_date: str | None = Field(None, alias="createdDate")
 
     model_config = {"extra": "allow"}
 
@@ -44,7 +42,7 @@ class Transaction(BaseModel):
 class SubscriptionResponse(BaseModel):
     """Subscription query response."""
 
-    subscription: Optional[SubscriptionInfo] = None
+    subscription: SubscriptionInfo | None = None
 
     model_config = {"extra": "allow"}
 
@@ -52,7 +50,7 @@ class SubscriptionResponse(BaseModel):
 class TransactionResponse(BaseModel):
     """Transaction list response."""
 
-    transactions: List[Transaction] = Field(default_factory=list)
-    total_count: Optional[int] = Field(None, alias="totalCount")
+    transactions: list[Transaction] = Field(default_factory=list)
+    total_count: int | None = Field(None, alias="totalCount")
 
     model_config = {"extra": "allow"}

@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from typing import Optional
-
 from pydantic import Field
 
 from ..._models import BaseModel
@@ -18,9 +16,9 @@ class Category(BaseModel):
 
     id: str
     name: str
-    whole_category_name: Optional[str] = Field(None, alias="wholeCategoryName")
-    last_level: Optional[bool] = Field(None, alias="lastLevel")
-    parent_category_id: Optional[str] = Field(None, alias="parentCategoryId")
+    whole_category_name: str | None = Field(None, alias="wholeCategoryName")
+    last_level: bool | None = Field(None, alias="lastLevel")
+    parent_category_id: str | None = Field(None, alias="parentCategoryId")
 
 
 class CategoryList(BaseModel):
